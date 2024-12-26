@@ -37,9 +37,14 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              
+              "src/styles.css",
+              "src/assets/css/styles.css" 
+
             ],
-            "scripts": [],
+            "scripts": [
+             "src/assets/js/script.js" 
+            ],
             "server": "src/main.server.ts",
             "outputMode": "server",
             "ssr": {
@@ -107,5 +112,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "5731cf68-f1b0-44ad-bde7-a6115ca65478"
   }
 }
