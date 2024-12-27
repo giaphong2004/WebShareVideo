@@ -1,0 +1,21 @@
+<div class="d-flex justify-content-center align-items-center vh-100">
+    	
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="shadow w-450 p-3" >
+    <h4 class="display-4  fs-1">Login</h4><br>
+
+  <div class="mb-3">
+    <label for="username">Username:&nbsp; </label>
+    <input type="text" id="username" required [(ngModel)]="username" name="username">
+  </div>
+  <div class="mb-3">
+    <label for="password">Password:&nbsp; </label>
+    <input type="password" id="password" required [(ngModel)]="password" name="password">
+  </div>
+  
+  <button class="btn btn-primary" type="submit" [disabled]="!loginForm.form.valid">Login</button>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a routerLink="/signup">Sign Up</a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="#" class="link-secondary">Admin Login</a>
+</form>
+</div>
