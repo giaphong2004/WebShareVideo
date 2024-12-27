@@ -1,0 +1,13 @@
+/* .like:hover {
+  background-color: green;
+
+} */
+
+.btn-like:active {
+  outline: none;
+  background-color: rgb(88, 222, 92);
+}
+.btn-dislike:active{
+  outline: none;
+  background-color: rgb(222, 88, 88);
+}
