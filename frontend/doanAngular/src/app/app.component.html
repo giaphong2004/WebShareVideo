@@ -1,40 +1,32 @@
 <header class="header bg-dark text-white p-3 d-flex justify-content-between align-items-center">
   <button id="sidebarToggle" class="btn btn-dark"><i class="fas fa-bars"></i></button>
   <form class="search-form d-flex">
-      <input type="text" placeholder="&#xf002; Search..." class="form-control me-2" id="searchInput">
+    <input type="text" placeholder="&#xf002; Search..." class="form-control me-2" id="searchInput">
   </form>
   <div class="auth-links">
     <!-- avatar user -->
     <div class="d-inline-flex justify-content-center align-items-center rounded-circle bg-primary text-white"
-     style="width: 40px; height: 40px; font-size: 1.1rem;">
-  AB
-</div>
-
+      style="width: 40px; height: 40px; font-size: 1.1rem;">
+      AB
+    </div>
     <!--  -->
-    <a routerLink="/login">Login</a>
+    <ng-container *ngIf="authService.isLoggedIn(); else loggedOut">
+      <span class="text-white">Hello - {{ authService.getUsername() }}</span>
+    </ng-container>
+    <ng-template #loggedOut>
+      <a routerLink="/login">Login</a>
       <span class="text-white">|</span>
       <a routerLink="/signup">Sign Up</a>
+    </ng-template>
   </div>
 </header>
 <div id="sidebar" class="sidebar">
   <a href="#" class="closebtn" id="closeSidebar"><i class="fas fa-times"></i></a>
   <a href="#"><i class="fa-solid fa-house"></i> Home</a>
   <a href="#"><i class="fa-solid fa-address-card"></i> About</a>
-  <a href="#"><i class="fas fa-link"></i> Contact</a>
-  <a href="#" id="categoryToggle"><i class="fas fa-list"></i> Category</a>
-  <div id="categoryList" class="category-list">
-      <a href="#">Category 1</a>
-      <a href="#">Category 2</a>
-      <a href="#">Category 3</a>
-  </div>
 </div>
-<router-outlet></router-outlet>
-<footer class="footer bg-dark text-white text-center p-3">
-  <p>© 2024 Let Vitory get History.</p>
-  <div class="social-icons">
-      <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
-      <a href="#" class="text-white me-2"><i class="fab fa-twitter"></i></a>
-      <a href="#" class="text-white me-2"><i class="fab fa-instagram"></i></a>
-      <a href="#" class="text-white"><i class="fab fa-linkedin-in"></i></a>
-  </div>
-</footer>
+<div id="overlay" class="overlay"></div>
+<main>
+  <router-outlet></router-outlet>
+</main>
+<app-footer></app-footer>

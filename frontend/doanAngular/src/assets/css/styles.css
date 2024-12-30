@@ -2,9 +2,9 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-}
-
-header {
+  }
+  
+  header {
     position: relative;
     z-index: 3; /* Đảm bảo header nằm trên sidebar */
     background-color: #333333;
@@ -14,46 +14,46 @@ header {
     justify-content: space-between;
     padding: 0 20px;
     color: white;
-}
-
-header .btn {
+  }
+  
+  header .btn {
     background-color: #333;
     color: white;
     border: none;
     font-size: 20px;
     cursor: pointer;
-}
-
-header .search-form {
+  }
+  
+  header .search-form {
     flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-header .search-form input {
+  }
+  
+  header .search-form input {
     width: 50%;
     padding: 5px;
     font-size: 16px;
     font-family: Arial, FontAwesome;
-}
-
-header .auth-links {
+  }
+  
+  header .auth-links {
     display: flex;
     align-items: center;
-}
-
-header .auth-links a {
+  }
+  
+  header .auth-links a {
     color: white;
     text-decoration: none;
     margin: 0 5px;
-}
-
-header .auth-links span {
+  }
+  
+  header .auth-links span {
     color: white;
-}
-
-.sidebar {
+  }
+  
+  .sidebar {
     position: fixed;
     top: 0;
     left: 0;
@@ -65,13 +65,13 @@ header .auth-links span {
     transition: transform 0.5s ease;
     padding-top: 60px;
     transform: translateX(-250px); /* Ẩn sidebar */
-}
-
-.sidebar.open {
+  }
+  
+  .sidebar.open {
     transform: translateX(0); /* Hiển thị sidebar */
-}
-
-.closebtn {
+  }
+  
+  .closebtn {
     font-size: 36px;
     padding: 10px 15px;
     color: white;
@@ -79,61 +79,61 @@ header .auth-links span {
     display: block;
     transition: 0.3s;
     text-align: right; /* Đặt biểu tượng đóng ở bên phải */
-}
-
-.closebtn:hover {
+  }
+  
+  .closebtn:hover {
     background-color: #575757; /* Đổi màu nền khi hover */
-}
-
-.sidebar a {
+  }
+  
+  .sidebar a {
     padding: 10px 15px;
     text-decoration: none;
     font-size: 18px; /* Giảm kích thước chữ */
     color: white;
     display: block;
     transition: 0.3s;
-}
-
-.sidebar a:hover {
+  }
+  
+  .sidebar a:hover {
     background-color: #575757;
     color: #fff;
     text-decoration: none;
-}
-
-.sidebar a i {
+  }
+  
+  .sidebar a i {
     margin-right: 10px;
-}
-
-.content {
+  }
+  
+  .content {
     padding: 20px;
-}
-
-.card {
+  }
+  
+  .card {
     height: 30vh; /* Đặt chiều cao cố định cho thẻ bằng đơn vị viewport height */
-}
-.card-text{
+  }
+  .card-text{
     font-size: 20px;
-}
-
-.card-img-top {
+  }
+  
+  .card-img-top {
     width: 100%;
     height: 50vh; /* Đặt chiều cao cố định cho ảnh bằng đơn vị viewport height */
     object-fit: cover; /* Đảm bảo ảnh không bị méo */
-}
-
-/* Media queries để điều chỉnh chiều cao cho các kích thước màn hình khác nhau */
-@media (max-width: 768px) {
+  }
+  
+  /* Media queries để điều chỉnh chiều cao cho các kích thước màn hình khác nhau */
+  @media (max-width: 768px) {
     .card {
-        height: 40vh; /* Tăng chiều cao thẻ cho màn hình nhỏ hơn */
+      height: 40vh; /* Tăng chiều cao thẻ cho màn hình nhỏ hơn */
     }
-
+  
     .card-img-top {
-        height: 25vh; /* Tăng chiều cao ảnh cho màn hình nhỏ hơn */
+      height: 25vh; /* Tăng chiều cao ảnh cho màn hình nhỏ hơn */
     }
-}
-
-/* Overlay */
-.overlay {
+  }
+  
+  /* Overlay */
+  .overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -142,27 +142,25 @@ header .auth-links span {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1; /* Đảm bảo overlay nằm dưới sidebar */
     display: none; /* Ẩn overlay */
-}
-
-.overlay.show {
+  }
+  
+  .overlay.show {
     display: block; /* Hiển thị overlay */
-}
-
-/* Footer */
-.footer {
+  }
+  
+  /* Footer */
+  .footer {
     background-color: #222; /* Màu tối hơn */
     color: white;
     padding: 20px 0;
-}
-
-.footer p {
+  }
+  
+  .footer p {
     margin: 0;
-}
-
-.footer .social-icons a {
+  }
+  
+  .footer .social-icons a {
     font-size: 20px;
     margin: 0 10px;
     color: white;
-    
-}
-
+  }
