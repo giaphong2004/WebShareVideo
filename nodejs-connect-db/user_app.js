@@ -10,12 +10,13 @@ app.use(cors());
 // Thêm người dùng
 app.post("/user", (req, res) => {
   const { name, email } = req.body;
-  const sql = "INSERT INTO user (user_id, fname_user, image_url) VALUES (?, ?)"; // user là tên bảng
+  const sql = "INSERT INTO user (fname_user, lname_user, uname_user, image_url) VALUES (?, ?, ? ,?)"; // user là tên bảng
   db.query(sql, [name, email], (err, result) => { // thêm dữ liệu vào bảng
     if (err) throw err; // nếu có lỗi thì in ra lỗi
     res.send("User added successfully!"); // nếu không có lỗi thì in ra thông báo
   });
 });
+
 // Lấy danh sách người dùng
 app.get("/user", (req, res) => { // lấy dữ liệu từ bảng user
   const sql = "SELECT * FROM user"; // lấy tất cả dữ liệu từ bảng user
@@ -24,8 +25,9 @@ app.get("/user", (req, res) => { // lấy dữ liệu từ bảng user
     res.json(results); // trả về dữ liệu dạng JSON
   });
 });
+
 // Cập nhật người dùng
-app.put("/user/:id", (req, res) => {
+app.put("/user/:user_id", (req, res) => {
   const { id } = req.params;
   const { name, email } = req.body;
   const sql = "UPDATE user SET fname_user = ? WHERE user_id = ?"; // cập nhật dữ liệu trong bảng user theo id của user
