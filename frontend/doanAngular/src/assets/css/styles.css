@@ -107,10 +107,7 @@ body {
   .content {
     padding: 20px;
   }
-  
-  .card {
-    height: 30vh; /* Đặt chiều cao cố định cho thẻ bằng đơn vị viewport height */
-  }
+
   .card-text{
     font-size: 20px;
   }

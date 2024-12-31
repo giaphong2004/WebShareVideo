@@ -1,0 +1,13 @@
+/* hoặc app.component.css nếu bạn muốn áp dụng kiểu chỉ cho component này */
+.dropdown-menu {
+    background-color: #343a40; /* Màu nền của dropdown */
+    color: white; /* Màu chữ của dropdown */
+  }
+  
+  .dropdown-item {
+    color: white; /* Màu chữ của item */
+  }
+  
+  .dropdown-item:hover {
+    background-color: #495057; /* Màu nền khi hover */
+  }
