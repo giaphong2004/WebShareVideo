@@ -5,10 +5,17 @@ const path = require('path');
 const cors = require('cors'); // Import cors
 
 const connection = mysql.createConnection({
+<<<<<<< HEAD
+    host     : 'localhost',
+    user     : 'root',
+    password : '',
+    database : 'streamhub_sql'
+=======
     host: 'localhost',
     user: 'root',
     password: '',
     database: 'streamhub_sql'
+>>>>>>> 64ab6f04c60850aa9f7752a9f0f40f5221d2cd39
 });
 
 connection.connect(function (err) {
