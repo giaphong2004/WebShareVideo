@@ -1,13 +1,27 @@
-/* hoặc app.component.css nếu bạn muốn áp dụng kiểu chỉ cho component này */
+.avatar:hover {
+  cursor: pointer;
+}
+/* Dropdown Menu */
+/* Dropdown Menu */
 .dropdown-menu {
-    background-color: #343a40; /* Màu nền của dropdown */
-    color: white; /* Màu chữ của dropdown */
-  }
-  
-  .dropdown-item {
-    color: white; /* Màu chữ của item */
-  }
-  
-  .dropdown-item:hover {
-    background-color: #495057; /* Màu nền khi hover */
-  }
+  position: absolute;
+  top: 50px; /* Điều chỉnh khoảng cách từ avatar */
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  display: block;  /* Đảm bảo dropdown luôn là block khi hiển thị */
+  z-index: 9999;  /* Đảm bảo dropdown không bị chặn */
+}
+
+.user-info {
+  margin-bottom: 10px;
+}
+
+.btn-danger {
+  width: 100%;
+}
+

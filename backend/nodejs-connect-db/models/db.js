@@ -1,3 +1,4 @@
+// Tạo kết nối MySQL
 const mysql = require('mysql');
 
 // Tạo kết nối MySQL

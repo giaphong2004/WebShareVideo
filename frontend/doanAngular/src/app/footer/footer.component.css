@@ -1,5 +1,5 @@
 .footer {
-    position: fixed;
+    /* position: fixed; */
     left: 0;
     bottom: 0;
     width: 100%;
@@ -8,13 +8,13 @@
     text-align: center;
     padding: 10px 0;
   }
-  
+
   .social-icons a {
     margin: 0 10px;
     color: white;
     text-decoration: none;
   }
-  
+
   .social-icons a:hover {
     color: #ddd;
   }
