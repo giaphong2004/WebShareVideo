@@ -8,7 +8,7 @@ const connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
     password : '',
-    database : 'stream_hub'
+    database : 'streamhub_sql'
 });
 
 connection.connect(function(err) {
