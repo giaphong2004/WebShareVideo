@@ -10,8 +10,15 @@
       AB
     </div>
     <!--  -->
-    <ng-container *ngIf="authService.isLoggedIn(); else loggedOut">
-      <span class="text-white">Hello - {{ authService.getUsername() }}</span>
+    <ng-container *ngIf="isLoggedIn; else loggedOut">
+      <div class="dropdown">
+        <span class="text-white dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          Hello - {{ username }}
+        </span>
+        <ul class="dropdown-menu" aria-labelledby="userDropdown">
+          <li><button class="dropdown-item" (click)="logout()">Logout</button></li>
+        </ul>
+      </div>
     </ng-container>
     <ng-template #loggedOut>
       <a routerLink="/login">Login</a>

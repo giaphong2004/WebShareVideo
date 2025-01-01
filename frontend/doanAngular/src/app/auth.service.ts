@@ -1,51 +1,78 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private loggedInStatus = false;
-  private username: string = '';
+  private loggedIn = new BehaviorSubject<boolean>(false);
+  private username = new BehaviorSubject<string>('');
+
+  get isLoggedIn() {
+    return this.loggedIn.asObservable();
+  }
+
+  get currentUsername() {
+    return this.username.asObservable();
+  }
 
   constructor(private http: HttpClient, private router: Router) {
+    // Initialize from localStorage if available
     if (this.isLocalStorageAvailable()) {
-      this.loggedInStatus = JSON.parse(localStorage.getItem('loggedIn') || 'false');
-      this.username = localStorage.getItem('username') || '';
+      const loggedIn = JSON.parse(localStorage.getItem('loggedIn') || 'false');
+      const username = localStorage.getItem('username') || '';
+      this.loggedIn.next(loggedIn);
+      this.username.next(username);
     }
   }
 
-  login(username: string, password: string): Observable<any> {
-    return this.http.post('http://localhost:3000/auth', { username, password });
+  login(user: { username: string, password: string }) {
+    return this.http.post('http://localhost:3000/auth', user).subscribe({
+      next: (response: any) => {
+        if (response.success) {
+          this.loggedIn.next(true);
+          this.username.next(user.username);
+          if (this.isLocalStorageAvailable()) {
+            localStorage.setItem('loggedIn', JSON.stringify(true));
+            localStorage.setItem('username', user.username);
+          }
+          this.router.navigate(['/home']);
+        } else {
+          alert(response.message);
+        }
+      },
+      error: (error) => {
+        console.error(error);
+        alert('Đăng nhập thất bại, vui lòng thử lại!');
+      }
+    });
   }
 
-  logout(): Observable<any> {
-    this.loggedInStatus = false;
-    this.username = '';
-    if (this.isLocalStorageAvailable()) {
-      localStorage.removeItem('loggedIn');
-      localStorage.removeItem('username');
-    }
-    return this.http.get('http://localhost:3000/logout');
-  }
-
-  setLoggedIn(value: boolean, username: string) {
-    this.loggedInStatus = value;
-    this.username = username;
-    if (this.isLocalStorageAvailable()) {
-      localStorage.setItem('loggedIn', JSON.stringify(value));
-      localStorage.setItem('username', username);
-    }
-  }
-
-  isLoggedIn() {
-    return this.loggedInStatus;
-  }
-
-  getUsername() {
-    return this.username;
+  logout(): Observable<void> {
+    return new Observable<void>((observer) => {
+      this.http.get('http://localhost:3000/logout').subscribe({
+        next: (response: any) => {
+          if (response.success) {
+            this.loggedIn.next(false);
+            this.username.next('');
+            if (this.isLocalStorageAvailable()) {
+              localStorage.removeItem('loggedIn');
+              localStorage.removeItem('username');
+            }
+            observer.next();
+            observer.complete();
+          } else {
+            alert(response.message);
+          }
+        },
+        error: (error) => {
+          console.error(error);
+          alert('Đăng xuất thất bại, vui lòng thử lại!');
+        }
+      });
+    });
   }
 
   private isLocalStorageAvailable(): boolean {
