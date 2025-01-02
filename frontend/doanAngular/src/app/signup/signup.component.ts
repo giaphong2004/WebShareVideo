@@ -7,7 +7,7 @@ import { AuthService } from '../../../service/auth/auth.service';
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   standalone: false,
-  styleUrls: ['./signup.component.css']
+  styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent {
   fullname: string = '';
@@ -15,13 +15,17 @@ export class SignupComponent {
   password: string = '';
   email: string = '';
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   onSubmit() {
     const user = {
       username: this.username,
       password: this.password,
-      email: this.email
+      email: this.email,
     };
 
     this.http.post('http://localhost:3000/api/auth/register', user).subscribe(

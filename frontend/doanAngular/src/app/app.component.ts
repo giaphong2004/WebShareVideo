@@ -12,6 +12,7 @@ export class AppComponent {
   title = 'doanAngular';
   isLoggedIn = false;
   username = '';
+
   isDropdownVisible: boolean = false; // Trạng thái của dropdown (hiển thị hay không)
 
   // Toggle hiển thị dropdown khi bấm vào avatar
@@ -20,26 +21,27 @@ export class AppComponent {
     this.isDropdownVisible = !this.isDropdownVisible;
     console.log('Dropdown visible:', this.isDropdownVisible);
   }
+
   constructor(public authService: AuthService, private router: Router) {
     this.authService.isLoggedIn.subscribe((loggedIn) => {
       this.isLoggedIn = loggedIn;
     });
 
     this.authService.currentUsername.subscribe((username) => {
-      this.username = username ?? '';
+      this.username = username;
     });
   }
 
   logout() {
     this.authService.logout().subscribe({
       next: () => {
-        // Sau khi đăng xuất thành công, điều hướng đến trang login
+        // Handle logout logic if needed
         this.router.navigate(['/login']);
       },
       error: (error) => {
         console.error('Logout failed', error);
         alert('Logout failed, please try again!');
-      }
+      },
     });
   }
 }

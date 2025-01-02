@@ -9,17 +9,16 @@ import { AuthService } from '../../../service/auth/auth.service';
   standalone: false,
   styleUrls: ['./login.component.css'],
 })
-
 export class LoginComponent {
   username: string = '';
   password: string = '';
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   onSubmit() {
     const user = {
       username: this.username,
-      password: this.password
+      password: this.password,
     };
 
     this.authService.login(user);

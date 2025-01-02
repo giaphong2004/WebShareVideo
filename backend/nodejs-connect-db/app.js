@@ -1,42 +1,51 @@
+
 const bodyParser = require('body-parser');
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const cors = require('cors'); // Import cors
-const db = require('./models/db');
+// const connection = require('./models/db');
 
 
 // Import các routes
-const userRoutes = require('./routes/userRoutes');
-const videoRoutes = require('./routes/videoRoutes');
+// const userRoutes = require('./routes/userRoutes');
+// // const videoRoutes = require('./routes/videoRoutes');
 
+// // Sử dụng các routes
+// app.use('/api', userRoutes);
+// // app.use('/api', videoRoutes);
 
-// Khởi tạo server
+// Tạo kết nối MySQL
+const mysql = require('mysql');
+
+// Tạo kết nối MySQL
+const connection = mysql.createConnection({
+    host     : 'localhost',
+    user     : 'root',
+    password : '',
+    database : 'streamhub_sql'
+});
+
+connection.connect(function (err) {
+    if (err) {
+        console.error('Error connecting to the database: ' + err.stack);
+        return;
+    }
+    console.log('Connected to the database as id ' + connection.threadId);
+});
+
 const app = express();
-const PORT = 3000;
 
-// Middleware
-app.use(bodyParser.json());
-app.use(cors());
+app.use(cors()); // Use cors middleware
 
 app.use(session({
-	secret: 'secret',
-	resave: true,
-	saveUninitialized: true
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
 }));
 
-app.use(express.static(path.join(__dirname, 'static')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Sử dụng các routes
-app.use('/api', userRoutes);
-app.use('/api', videoRoutes);
-
 
 // Middleware to check if user is logged in
 function requireLogin(req, res, next) {
@@ -52,7 +61,6 @@ function requireLogin(req, res, next) {
 app.get('/', function (request, response) {
     // Render login template
     response.sendFile(path.join(__dirname, 'login.html'));
-    
 });
 
 // http://localhost:3000/register
@@ -60,8 +68,6 @@ app.get('/register', function (request, response) {
     // Hiển thị trang đăng ký
     response.sendFile(path.join(__dirname, 'register.html'));
 });
-
-
 
 // http://localhost:3000/auth
 app.post('/auth', function (request, response) {
@@ -71,7 +77,7 @@ app.post('/auth', function (request, response) {
     // Ensure the input fields exists and are not empty
     if (username && password) {
         // Execute SQL query that'll select the account from the database based on the specified username and password
-        db.query('SELECT * FROM user WHERE user_uname = ? AND password = ?', [username, password], function (error, results, fields) {
+        connection.query('SELECT * FROM user WHERE user_uname = ? AND password = ?', [username, password], function (error, results, fields) {
             // If there is an issue with the query, output the error
             if (error) throw error;
             // If the account exists
@@ -101,7 +107,7 @@ app.post('/auth/register', function (request, response) {
     // Ensure the input fields exists and are not empty
     if (username && password && email) {
         // Execute SQL query that'll select the account from the database based on the specified username
-        db.query('SELECT * FROM user WHERE user_uname = ?', [username], function (error, results, fields) {
+        connection.query('SELECT * FROM user WHERE user_uname = ?', [username], function (error, results, fields) {
             // If there is an issue with the query, output the error
             if (error) {
                 response.status(500).json({ success: false, message: 'Database query error' });
@@ -112,7 +118,7 @@ app.post('/auth/register', function (request, response) {
                 response.status(400).json({ success: false, message: 'Username already exists' });
             } else {
                 // Execute SQL query that'll insert the account into the database
-                db.query('INSERT INTO user (user_uname, password, email) VALUES (?, ?, ?)', [username, password, email], function (error, results) {
+                connection.query('INSERT INTO user (user_uname, password, email) VALUES (?, ?, ?)', [username, password, email], function (error, results) {
                     // If there is an issue with the query, output the error
                     if (error) {
                         response.status(500).json({ success: false, message: 'Database insert error' });
@@ -128,9 +134,37 @@ app.post('/auth/register', function (request, response) {
     }
 });
 
+// http://localhost:3000/home
+app.get('/home', requireLogin, function (request, response) {
+    // Output username
+    response.send('Welcome back, ' + request.session.username + '!');
+    response.end();
+});
 
+// http://localhost:3000/logout
+app.get('/logout', function (request, response) {
+    request.session.destroy(err => {
+        if (err) {
+            return response.status(500).json({ success: false, message: 'Failed to logout.' });
+        }
+        response.json({ success: true, message: 'Logout successful' });
+    });
+});
 
-// Khởi động server
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+// API để lấy danh sách người dùng
+app.get("/user", (req, res) => {
+    const query = "SELECT * FROM user"; // Lấy danh sách người dùng
+    connection.query(query, (err, results) => {
+      if (err) {
+        // Lỗi server
+        return res.status(500).json({ error: "Failed to fetch users" });
+      }
+      res.json(results);
+    });
+  });
+  
+//   module.exports = router;
+
+app.listen(3000, () => {
+    console.log('Server is running on http://localhost:3000');
 });

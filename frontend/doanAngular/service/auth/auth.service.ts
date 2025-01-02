@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,withFetch }  from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
-
-import { of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -54,28 +51,25 @@ export class AuthService {
   }
 
   logout(): Observable<void> {
-    return new Observable<void>((observer) => {
-      this.http.get('http://localhost:3000/logout').subscribe({
-        next: (response: any) => {
-          if (response.success) {
-            this.loggedIn.next(false);
-            this.username.next('');
-            if (this.isLocalStorageAvailable()) {
-              localStorage.removeItem('loggedIn');
-              localStorage.removeItem('username');
-            }
-            observer.next();
-            observer.complete();
-          } else {
-            alert(response.message);
+    return this.http.get('http://localhost:3000/logout').pipe(
+      map((response: any) => {
+        if (response.success) {
+          this.loggedIn.next(false);
+          this.username.next('');
+          if (this.isLocalStorageAvailable()) {
+            localStorage.removeItem('loggedIn');
+            localStorage.removeItem('username');
           }
-        },
-        error: (error) => {
-          console.error(error);
-          alert('Đăng xuất thất bại, vui lòng thử lại!');
-        },
-      });
-    });
+        } else {
+          alert(response.message);
+        }
+      }),
+      catchError((error) => {
+        console.error('Logout failed:', error);
+        alert('Đăng xuất thất bại, vui lòng thử lại!');
+        return of(); // Trả về Observable trống khi có lỗi
+      })
+    );
   }
 
   private isLocalStorageAvailable(): boolean {
