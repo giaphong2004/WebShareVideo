@@ -10,10 +10,9 @@ import { AuthService } from '../../../service/auth/auth.service';
   styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent {
-  fullname: string = '';
+  email: string = '';
   username: string = '';
   password: string = '';
-  email: string = '';
 
   constructor(
     private http: HttpClient,
@@ -23,25 +22,24 @@ export class SignupComponent {
 
   onSubmit() {
     const user = {
-      username: this.username,
-      password: this.password,
       email: this.email,
+      username: this.username,
+      password: this.password
     };
 
-    this.http.post('http://localhost:3000/api/auth/register', user).subscribe(
-      (response: any) => {
-        console.log(response);
+    this.http.post('http://localhost:3000/auth/register', user).subscribe({
+      next: (response: any) => {
         if (response.success) {
-          // Chuyển hướng đến trang đăng nhập sau khi đăng ký thành công
-          this.router.navigate(['/login']);
+          alert('Registration successful!');
+          this.router.navigate(['/login']); // Điều hướng đến trang đăng nhập sau khi đăng ký thành công
         } else {
           alert(response.message);
         }
       },
-      (error) => {
-        console.error(error);
-        alert('Đăng ký thất bại, vui lòng thử lại!');
+      error: (error) => {
+        console.error('Registration failed', error);
+        alert('Registration failed, please try again!');
       }
-    );
+    });
   }
 }

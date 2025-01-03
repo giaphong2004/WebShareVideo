@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { DetailComponent } from './detail/detail.component';
-import { AuthService } from '../../../../auth/auth.service';
+import { AuthService } from '../../service/auth/auth.service';
 import { FooterComponent } from './footer/footer.component';
 import { SignupComponent } from './signup/signup.component';
 

@@ -1,4 +1,3 @@
-
 const bodyParser = require('body-parser');
 const express = require('express');
 const session = require('express-session');
@@ -18,12 +17,11 @@ const cors = require('cors'); // Import cors
 // Tạo kết nối MySQL
 const mysql = require('mysql');
 
-// Tạo kết nối MySQL
 const connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    password : '',
-    database : 'streamhub_sql'
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'streamhub_sql'
 });
 
 connection.connect(function (err) {
@@ -163,8 +161,6 @@ app.get("/user", (req, res) => {
     });
   });
   
-//   module.exports = router;
-
 app.listen(3000, () => {
     console.log('Server is running on http://localhost:3000');
 });
