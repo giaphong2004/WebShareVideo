@@ -38,7 +38,7 @@ export class AuthService {
             localStorage.setItem('loggedIn', JSON.stringify(true));
             localStorage.setItem('username', user.username);
           }
-          this.router.navigate(['/home']);
+          this.router.navigate(['']);
         } else {
           alert(response.message);
         }

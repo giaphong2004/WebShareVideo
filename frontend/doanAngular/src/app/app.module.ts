@@ -13,6 +13,12 @@ import { FooterComponent } from './footer/footer.component';
 import { SignupComponent } from './signup/signup.component';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+import { HeaderComponent } from './admin/header/header.component';
+import { SidebarComponent } from './admin/sidebar/sidebar.component';
+
+
 
 @NgModule({
   declarations: [
@@ -24,9 +30,14 @@ import { ContactComponent } from './contact/contact.component';
     FooterComponent,
     AboutComponent,
     ContactComponent,
+    AdminLayoutComponent,
+    MainLayoutComponent,
+    HeaderComponent,
+    SidebarComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [AuthService],
   bootstrap: [AppComponent],
+  
 })
 export class AppModule {}
