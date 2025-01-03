@@ -11,6 +11,8 @@ import { DetailComponent } from './detail/detail.component';
 import { AuthService } from '../../service/auth/auth.service';
 import { FooterComponent } from './footer/footer.component';
 import { SignupComponent } from './signup/signup.component';
+import { AboutComponent } from './about/about.component';
+import { ContactComponent } from './contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { SignupComponent } from './signup/signup.component';
     HomeComponent,
     DetailComponent,
     FooterComponent,
+    AboutComponent,
+    ContactComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [AuthService],

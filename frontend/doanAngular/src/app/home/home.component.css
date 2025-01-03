@@ -1,0 +1,49 @@
+/* Hiệu ứng hover và shadow cho thẻ card */
+.card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Định vị phần tử item-type */
+.card-body {
+    position: relative;
+    padding: 15px;
+}
+
+.card-body .card-text {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+}
+
+.card-body .card-text:hover {
+    color: #007bff;
+}
+
+.item-type {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+/* Cải thiện hình ảnh */
+.card-img-top {
+    object-fit: cover;
+}
+
+/* Đảm bảo thẻ a không ảnh hưởng đến bố cục và kiểu dáng của thẻ card */
+a.text-decoration-none {
+    text-decoration: none;
+    color: inherit;
+}
+

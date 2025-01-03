@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "doanAngular": {
+    "doan-angular": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -31,26 +31,13 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              "src/favicon.ico",
+              "src/assets"
             ],
             "styles": [
-              
-              "src/styles.css",
-              "src/assets/css/styles.css" 
-
+              "src/styles.css"
             ],
-            "scripts": [
-             "src/assets/js/script.js" ,
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-            ],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            "scripts": []
           },
           "configurations": {
             "production": {
