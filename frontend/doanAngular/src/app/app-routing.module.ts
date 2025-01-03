@@ -20,6 +20,8 @@ const routes: Routes = [
       { path: 'contact', component: ContactComponent },
       { path: 'login', component: LoginComponent },
       { path: 'signup', component: SignupComponent },
+      { path: 'home', component: HomeComponent },
+      {path: 'detail/:video_id', component: DetailComponent},
       {path: 'detail', component:DetailComponent},
     ]
   },
