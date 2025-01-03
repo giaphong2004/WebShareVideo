@@ -1,25 +1,25 @@
 <div class="container-fluid" style="min-height: 900px">
-  <div *ngIf="videos" class="row d-flex align-items-center p-3">
+  <div *ngIf="video" class="row d-flex align-items-center p-3">
     <!-- main content -->
     <div class="col-8">
       <div class="ratio ratio-16x9">
         <iframe
           class="rounded-3"
-          src="{{videos.url_video}}"
+          [src]="safeUrl"
           title="YouTube video"
           allowfullscreen
         >
         </iframe>
       </div>
       <div class="d-flex justify-content-between m-1">
-        <h3 class="mt-2">{{videos.title}}</h3>
+        <h3 class="mt-2">{{video.title}}</h3>
         <div class="d-flex">
           <button class="btn btn-like"> <i class="fa-regular fa-thumbs-up fa-2x like"></i></button>
           <button class="btn btn-dislike"><i class="fa-regular fa-thumbs-down fa-2x dislike"></i></button>
         </div>
       </div>
       <div class="d-flex justify-content-between m-1">
-        <p class="m-1"></p>
+        <p class="m-1">{{video.detail}}</p>
       </div>
     </div>
     <!-- end main content -->
@@ -32,7 +32,7 @@
           <div class="ratio ratio-16x9">
             <iframe
               class="rounded-3"
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              src="https://www.youtube.com/embed/lIj9XQ_Sm5M"
               frameborder="0"
             ></iframe>
           </div>

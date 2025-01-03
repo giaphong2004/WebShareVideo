@@ -22,7 +22,7 @@ const routes: Routes = [
       { path: 'signup', component: SignupComponent },
       { path: 'home', component: HomeComponent },
       {path: 'detail/:video_id', component: DetailComponent},
-      {path: 'detail', component:DetailComponent},
+     
     ]
   },
   {

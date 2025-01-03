@@ -1,28 +1,43 @@
 import { Component, OnInit } from '@angular/core';
-import { VideoService } from '../../../service/video/video.service';
 import { ActivatedRoute } from '@angular/router';
-import { title } from 'node:process';
+import { VideoService } from '../../../service/video/video.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-detail',
-  standalone: false,
-
   templateUrl: './detail.component.html',
-  styleUrl: './detail.component.css',
+  standalone: false,
+  styleUrls: ['./detail.component.css']
 })
 export class DetailComponent implements OnInit {
-  videos: any;
+  video: any; // Đổi tên biến từ videos thành video để rõ ràng hơn
+  safeUrl: SafeResourceUrl | null = null;
 
   constructor(
+    private route: ActivatedRoute,
     private videoService: VideoService,
-    private route: ActivatedRoute
+    private sanitizer: DomSanitizer
   ) {}
-  ngOnInit(): void {
-    const video_id = this.route.snapshot.params['video_id'];
-    console.log('Video ID:', video_id); // Kiểm tra ID có được lấy ra không
 
-    this.videoService.getVideoById(video_id).subscribe((data) => {
-      this.videos = data;
+  ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      const video_id = params['video_id'];
+      this.loadVideo(video_id);
     });
+  }
+
+  loadVideo(video_id: number) {
+    this.videoService.getVideoById(video_id).subscribe(
+      data => {
+        console.log('Video data:', data); // Thêm log để kiểm tra dữ liệu
+        if (data && data.length > 0) {
+          this.video = data[0]; // Truy cập đối tượng video đầu tiên trong mảng
+          this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + this.video.url_video);
+        }
+      },
+      error => {
+        console.error('There was an error!', error);
+      }
+    );
   }
 }

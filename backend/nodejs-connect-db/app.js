@@ -201,7 +201,11 @@ app.get("/api/video/:video_id", (req, res) => {
     if (err) {
       return res.status(500).json({ error: "Failed to fetch video" });
     }
-    res.json(results);
+    if (results.length > 0) {
+      res.json(results[0]); // Trả về kết quả đầu tiên
+    } else {
+      res.status(404).json({ error: "Video not found" });
+    }
   });
 });
 
