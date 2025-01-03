@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { AuthService } from './auth.service';
+import { AuthService } from '../../service/auth/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   standalone: false,
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   title = 'doanAngular';
@@ -23,11 +23,11 @@ export class AppComponent {
   }
 
   constructor(public authService: AuthService, private router: Router) {
-    this.authService.isLoggedIn.subscribe(loggedIn => {
+    this.authService.isLoggedIn.subscribe((loggedIn) => {
       this.isLoggedIn = loggedIn;
     });
 
-    this.authService.currentUsername.subscribe(username => {
+    this.authService.currentUsername.subscribe((username) => {
       this.username = username;
     });
   }
@@ -41,7 +41,7 @@ export class AppComponent {
       error: (error) => {
         console.error('Logout failed', error);
         alert('Logout failed, please try again!');
-      }
+      },
     });
   }
 }

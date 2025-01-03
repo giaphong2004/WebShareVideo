@@ -1,39 +1,45 @@
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card mt-5 shadow-sm">
-        <div class="card-header text-center bg-primary text-white">
-          <h1>Register</h1>
-        </div>
-        <div class="card-body">
-          <form (ngSubmit)="onSubmit()">
-            <div class="form-group mb-3">
-              <label for="email" class="form-label">
-                <i class="fas fa-envelope"></i> Email
-              </label>
-              <input type="email" id="email" name="email" class="form-control" placeholder="Email" [(ngModel)]="email" required>
-            </div>
-            <div class="form-group mb-3">
-              <label for="username" class="form-label">
-                <i class="fas fa-user"></i> Username
-              </label>
-              <input type="text" id="username" name="username" class="form-control" placeholder="Username" [(ngModel)]="username" required>
-            </div>
-            <div class="form-group mb-3">
-              <label for="password" class="form-label">
-                <i class="fas fa-lock"></i> Password
-              </label>
-              <input type="password" id="password" name="password" class="form-control" placeholder="Password" [(ngModel)]="password" required>
-            </div>
-            <div class="d-grid">
-              <button type="submit" class="btn btn-primary btn-block">Register</button>
-            </div>
-          </form>
-        </div>
-        <div class="card-footer text-center">
-          <p>Already have an account? <a routerLink="/login" class="text-primary">Login here</a></p>
-        </div>
-      </div>
+<div class="d-flex justify-content-center align-items-center vh-100">
+  <form (ngSubmit)="onSubmit()" #signupForm="ngForm" class="shadow w-450 p-3">
+    <h4 class="display-4 fs-1">Sign Up</h4>
+    <br />
+    <div class="mb-3">
+      <label for="fullname">Fullname:&nbsp;&nbsp;&nbsp;</label>
+      <input
+        type="text"
+        id="fullname"
+        required
+        [(ngModel)]="fullname"
+        name="fullname"
+      />
     </div>
-  </div>
+    <div class="mb-3">
+      <label for="username">Username:&nbsp; </label>
+      <input
+        type="text"
+        id="username"
+        required
+        [(ngModel)]="username"
+        name="username"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="password">Password:&nbsp; </label>
+      <input
+        type="password"
+        id="password"
+        required
+        [(ngModel)]="password"
+        name="password"
+      />
+    </div>
+    <button
+      class="btn btn-primary"
+      type="submit"
+      [disabled]="!signupForm.form.valid"
+    >
+      Sign Up
+    </button>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <a routerLink="/login">Login</a>
+  </form>
 </div>

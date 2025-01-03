@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../../service/auth/auth.service';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   standalone: false,
-  styleUrls: ['./signup.component.css']
+  styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent {
   fullname: string = '';
@@ -15,16 +15,20 @@ export class SignupComponent {
   password: string = '';
   email: string = '';
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   onSubmit() {
     const user = {
       username: this.username,
       password: this.password,
-      email: this.email
+      email: this.email,
     };
 
-    this.http.post('http://localhost:3000/auth/register', user).subscribe(
+    this.http.post('http://localhost:3000/api/auth/register', user).subscribe(
       (response: any) => {
         console.log(response);
         if (response.success) {
