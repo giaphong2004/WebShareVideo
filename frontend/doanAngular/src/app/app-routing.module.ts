@@ -10,7 +10,7 @@ import { DetailComponent } from './detail/detail.component';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'detail', component: DetailComponent },
+  {path: 'detail/:video_id', component: DetailComponent},
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'about', component: AboutComponent },

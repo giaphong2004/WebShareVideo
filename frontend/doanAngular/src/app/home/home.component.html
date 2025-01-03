@@ -1,117 +1,24 @@
 <div id="overlay" class="overlay"></div>
-<div class="container-fluid">
+<div class="container-xxl">
     <div class="row align-items-center p-3">
         <div class="col d-flex align-items-center">
             <h1 class="h3 mb-0">Mới tải lên</h1>
         </div>
     </div>
     <main class="content">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-            <div class="col">
-                <a routerLink="/detail" class="text-decoration-none">
+        <div  class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+            <div *ngFor="let videos of video" class="col">
+                <a [routerLink]="['/detail',videos.video_id]" class="text-decoration-none">
                     <div class="card h-100">
-                        <img src="https://i.pinimg.com/736x/19/7f/b5/197fb5a68642eb76bf0bcbb9563b2d9a.jpg" class="card-img-top" alt="Placeholder Image">
+                        <img src="{{videos.cover_url}}" class="card-img-top" alt="Placeholder Image">
                         <div class="card-body">
-                            <p class="card-text"><b>Item 1</b></p>
-                            <div class="item-type">Category 1</div>
+                            <p class="card-text"><b>{{videos.title}}</b></p>
+                            <div class="item-info">{{videos.title}}</div>
                         </div>
                     </div>
                 </a>
             </div>
-            <div class="col">
-                <a routerLink="/detail" class="text-decoration-none">
-                    <div class="card h-100">
-                        <img src="https://i.pinimg.com/736x/19/7f/b5/197fb5a68642eb76bf0bcbb9563b2d9a.jpg" class="card-img-top" alt="Placeholder Image">
-                        <div class="card-body">
-                            <p class="card-text"><b>Item 2</b></p>
-                            <div class="item-type">Category 1</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://i.pinimg.com/736x/19/7f/b5/197fb5a68642eb76bf0bcbb9563b2d9a.jpg" class="card-img-top" alt="Placeholder Image">
-                    <div class="card-body">
-                        <p class="card-text">Item 3</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://i.pinimg.com/736x/19/7f/b5/197fb5a68642eb76bf0bcbb9563b2d9a.jpg" class="card-img-top" alt="Placeholder Image">
-                    <div class="card-body">
-                        <p class="card-text">Item 4</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://i.pinimg.com/736x/19/7f/b5/197fb5a68642eb76bf0bcbb9563b2d9a.jpg" class="card-img-top" alt="Placeholder Image">
-                    <div class="card-body">
-                        <p class="card-text">Item 5</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://i.pinimg.com/736x/19/7f/b5/197fb5a68642eb76bf0bcbb9563b2d9a.jpg" class="card-img-top" alt="Placeholder Image">
-                    <div class="card-body">
-                        <p class="card-text">Item 6</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://i.pinimg.com/736x/19/7f/b5/197fb5a68642eb76bf0bcbb9563b2d9a.jpg" class="card-img-top" alt="Placeholder Image">
-                    <div class="card-body">
-                        <p class="card-text">Item 7</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://i.pinimg.com/736x/19/7f/b5/197fb5a68642eb76bf0bcbb9563b2d9a.jpg" class="card-img-top" alt="Placeholder Image">
-                    <div class="card-body">
-                        <p class="card-text">Item 8</p>
-                        <div class="item-type">Type 1</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://i.pinimg.com/736x/19/7f/b5/197fb5a68642eb76bf0bcbb9563b2d9a.jpg" class="card-img-top" alt="Placeholder Image">
-                    <div class="card-body">
-                        <p class="card-text">Item 9</p>
-                        <div class="item-type">Type 2</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://i.pinimg.com/736x/19/7f/b5/197fb5a68642eb76bf0bcbb9563b2d9a.jpg" class="card-img-top" alt="Placeholder Image">
-                    <div class="card-body">
-                        <p class="card-text">Item 10</p>
-                        <div class="item-type">Type 3</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://i.pinimg.com/736x/19/7f/b5/197fb5a68642eb76bf0bcbb9563b2d9a.jpg" class="card-img-top" alt="Placeholder Image">
-                    <div class="card-body">
-                        <p class="card-text">Item 11</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://i.pinimg.com/736x/19/7f/b5/197fb5a68642eb76bf0bcbb9563b2d9a.jpg" class="card-img-top" alt="Placeholder Image">
-                    <div class="card-body">
-                        <p class="card-text">Item 12</p>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </main>
 </div>
