@@ -13,6 +13,15 @@ export class AppComponent {
   isLoggedIn = false;
   username = '';
 
+  isDropdownVisible: boolean = false; // Trạng thái của dropdown (hiển thị hay không)
+
+  // Toggle hiển thị dropdown khi bấm vào avatar
+  toggleDropdown() {
+    console.log('Dropdown toggled');
+    this.isDropdownVisible = !this.isDropdownVisible;
+    console.log('Dropdown visible:', this.isDropdownVisible);
+  }
+
   constructor(public authService: AuthService, private router: Router) {
     this.authService.isLoggedIn.subscribe(loggedIn => {
       this.isLoggedIn = loggedIn;
