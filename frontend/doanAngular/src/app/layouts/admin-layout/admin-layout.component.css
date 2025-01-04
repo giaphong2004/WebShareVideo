@@ -1,0 +1,11 @@
+.main-content {
+  margin-left: 240px;
+  padding: 20px;
+}
+.body {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+  flex: 0 0 auto;
+  width: 84.4%;
+  height: 30px;
+}

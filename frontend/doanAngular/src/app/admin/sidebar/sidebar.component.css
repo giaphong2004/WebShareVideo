@@ -1,0 +1,70 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap");
+.side-bar {
+  font-family: "Roboto", sans-serif;
+
+  width: 240px;
+  height: 100vh;
+  background-color: #181818;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+.logo {
+  padding: 20px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+}
+.logo:hover {
+  color: #ff1818; /* Màu chữ */
+  text-shadow: 0 0 10px #ff1818, 0 0 20px #ff1818, 0 0 40px #ff1818;
+}
+.menu {
+  padding: 16px 0;
+  border-block: 1px solid #3f3f3f;
+}
+
+.menu-item {
+  color: #fff;
+  font-size: 16px;
+  transition: color 0.3s, text-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+}
+
+.menu-item:hover {
+  color: #ff1818; /* Màu chữ */
+  text-shadow: 0 0 10px #ff1818, 0 0 20px #ff1818, 0 0 40px #ff1818;
+}
+.menu-item::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background: #ff1818;
+  bottom: 0;
+  left: 0;
+  transition: width 0.3s;
+}
+.menu-item:hover::after {
+  width: 100%; /* Đường gạch chân xuất hiện */
+}
+
+.menu-item .icon {
+  margin-right: 10px;
+  font-size: 18px;
+}
