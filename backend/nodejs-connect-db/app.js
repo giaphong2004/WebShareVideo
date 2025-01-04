@@ -197,6 +197,45 @@ app.get("/api/video", (req, res) => {
     res.json(results);
   });
 });
+// 
+// API để thêm video
+app.post("/api/video", (req, res) => {
+  const { title, url_video, cover_url, detail, cate_id } = req.body;
+  const query =
+    "INSERT INTO video (title, url_video, cover_url, detail, cate_id) VALUES (?, ?, ?, ?, ?)";
+  connection.query(
+    query,
+    [title, url_video, cover_url, detail, cate_id],
+    (err, results) => {
+      if (err) {
+        return res.status(500).json({ error: "Thêm thất bại" });
+      }
+      res.json({ success: true, message: "Thêm thành công!" });
+    }
+  );
+});
+// Cập nhật video
+app.put("/api/video/:video_id", (req, res) => {
+  const { video_id } = req.params;
+  const { title, url_video, cover_url, detail, cate_id } = req.body;
+  const sql = "UPDATE video SET title = ?, url_video = ?, cover_url = ?, detail = ?, cate_id = ? WHERE video_id = ?";
+  connection.query(sql, [title, url_video, cover_url, detail, cate_id, video_id], (err, result) => {
+    if (err) throw err;
+    res.send("Cập nhật thông tin thành công!");
+  });
+});
+// Xóa video
+app.delete("/api/video/:video_id", (req, res) => {
+  const { video_id } = req.params;
+  const sql = "DELETE FROM video WHERE video_id = ?";
+  connection.query(sql, [video_id], (err, result) => {
+    if (err) throw err;
+    res.send("Đã xoá");
+  });
+});
+
+
+
 
 // API lấy thông tin video theo id kèm theo thông tin category
 app.get("/api/video/:video_id", (req, res) => {
