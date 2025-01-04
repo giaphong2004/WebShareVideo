@@ -20,8 +20,8 @@
                     <div class="card h-100">
                         <img [src]="videos.cover_url" class="card-img-top" alt="Placeholder Image">
                         <div class="card-body">
-                            <p class="card-text"><b>{{videos.title}}</b></p>
-                            <div class="item-info">{{videos.title}}</div>
+                            <p class="card-text"><b>{{videos.title.slice(0,30)}}...</b></p>
+                            <div class="item-info">{{videos.detail.slice(0,8)}}...</div>
                             <div class="category-badge">{{videos.category}}</div> <!-- Hiển thị category -->
                         </div>
                     </div>

@@ -37,6 +37,11 @@ export class VideoService {
     return this.http.get(`${this.apiUrl}/${video_id}`);
   }
 
+  // Hàm lấy các video tương tự theo id từ API
+  getSimilarVideos(video_id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${video_id}/similar`);
+  }
+
   addVideo(video: any): Observable<any> {
     return this.http.post(this.apiUrl, video);
   }

@@ -197,45 +197,6 @@ app.get("/api/video", (req, res) => {
     res.json(results);
   });
 });
-// 
-// API để thêm video
-app.post("/api/video", (req, res) => {
-  const { title, url_video, cover_url, detail, cate_id } = req.body;
-  const query =
-    "INSERT INTO video (title, url_video, cover_url, detail, cate_id) VALUES (?, ?, ?, ?, ?)";
-  connection.query(
-    query,
-    [title, url_video, cover_url, detail, cate_id],
-    (err, results) => {
-      if (err) {
-        return res.status(500).json({ error: "Thêm thất bại" });
-      }
-      res.json({ success: true, message: "Thêm thành công!" });
-    }
-  );
-});
-// Cập nhật video
-app.put("/api/video/:video_id", (req, res) => {
-  const { video_id } = req.params;
-  const { title, url_video, cover_url, detail, cate_id } = req.body;
-  const sql = "UPDATE video SET title = ?, url_video = ?, cover_url = ?, detail = ?, cate_id = ? WHERE video_id = ?";
-  connection.query(sql, [title, url_video, cover_url, detail, cate_id, video_id], (err, result) => {
-    if (err) throw err;
-    res.send("Cập nhật thông tin thành công!");
-  });
-});
-// Xóa video
-app.delete("/api/video/:video_id", (req, res) => {
-  const { video_id } = req.params;
-  const sql = "DELETE FROM video WHERE video_id = ?";
-  connection.query(sql, [video_id], (err, result) => {
-    if (err) throw err;
-    res.send("Đã xoá");
-  });
-});
-
-
-
 
 // API lấy thông tin video theo id kèm theo thông tin category
 app.get("/api/video/:video_id", (req, res) => {
@@ -336,6 +297,44 @@ app.post("/api/contact", (req, res) => {
   });
 });
 
+// 
+// API để thêm video
+app.post("/api/video", (req, res) => {
+  const { title, url_video, cover_url, detail, cate_id } = req.body;
+  const query =
+    "INSERT INTO video (title, url_video, cover_url, detail, cate_id) VALUES (?, ?, ?, ?, ?)";
+  connection.query(
+    query,
+    [title, url_video, cover_url, detail, cate_id],
+    (err, results) => {
+      if (err) {
+        return res.status(500).json({ error: "Thêm thất bại" });
+      }
+      res.json({ success: true, message: "Thêm thành công!" });
+    }
+  );
+});
+// Cập nhật video
+app.put("/api/video/:video_id", (req, res) => {
+  const { video_id } = req.params;
+  const { title, url_video, cover_url, detail, cate_id } = req.body;
+  const sql = "UPDATE video SET title = ?, url_video = ?, cover_url = ?, detail = ?, cate_id = ? WHERE video_id = ?";
+  connection.query(sql, [title, url_video, cover_url, detail, cate_id, video_id], (err, result) => {
+    if (err) throw err;
+    res.send("Cập nhật thông tin thành công!");
+  });
+});
+// Xóa video
+app.delete("/api/video/:video_id", (req, res) => {
+  const { video_id } = req.params;
+  const sql = "DELETE FROM video WHERE video_id = ?";
+  connection.query(sql, [video_id], (err, result) => {
+    if (err) throw err;
+    res.send("Đã xoá");
+  });
+});
+
+
 // API để lấy danh sách tin nhắn liên hệ
 app.get("/api/contact-messages", (req, res) => {
   const query = "SELECT * FROM contact_messages";
@@ -346,6 +345,58 @@ app.get("/api/contact-messages", (req, res) => {
         .json({ error: "Failed to fetch contact messages" });
     }
     res.json(results);
+  });
+});
+
+// API để lấy các video tương tự dựa trên ID của video hiện tại
+app.get("/api/video/:video_id/similar", (req, res) => {
+  const { video_id } = req.params;
+
+  // Truy vấn để lấy cate_id của video hiện tại
+  const getCategoryQuery = `
+    SELECT cate_id FROM video WHERE video_id = ?
+  `;
+
+  connection.query(getCategoryQuery, [video_id], (err, categoryResults) => {
+    if (err) {
+      return res.status(500).json({ error: "Failed to fetch category" });
+    }
+
+    if (categoryResults.length === 0) {
+      return res.status(404).json({ error: "Video not found" });
+    }
+
+    const cate_id = categoryResults[0].cate_id;
+
+    // Truy vấn để lấy các video tương tự
+    const getSimilarVideosQuery = `
+      SELECT v.video_id, v.title, v.url_video, v.cover_url, v.detail, c.category
+      FROM video v
+      INNER JOIN category c ON c.id = v.cate_id
+      WHERE v.video_id != ? AND v.cate_id = ?
+      LIMIT 5
+    `;
+
+    connection.query(getSimilarVideosQuery, [video_id, cate_id], (err, results) => {
+      if (err) {
+        return res.status(500).json({ error: "Failed to fetch similar videos" });
+      }
+      res.json(results);
+    });
+  });
+});
+
+// Route để thêm bình luận
+app.post('/addComment', (req, res) => {
+  const { videoId, username, text } = req.body;
+  const query = 'INSERT INTO comments (video_id, user_id, comment) VALUES (?, ?, ?)';
+  connection.query(query, [videoId, username, text], (err, result) => {
+    if (err) {
+      console.error('Error inserting comment:', err);
+      res.status(500).send('Error inserting comment');
+    } else {
+      res.status(200).send('Comment added successfully');
+    }
   });
 });
 
