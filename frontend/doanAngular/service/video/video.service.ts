@@ -7,12 +7,29 @@ import { Observable } from 'rxjs';
 })
 export class VideoService {
   private apiUrl = 'http://localhost:3000/api/video';
+  private categoryUrl = 'http://localhost:3000/api/categories';
+  private allVideosUrl = 'http://localhost:3000/api/videos';
 
   constructor(private http: HttpClient) {}
 
   // Hàm lấy danh sách video từ API
   getVideo(): Observable<any> {
     return this.http.get(this.apiUrl);
+  }
+
+  // Hàm lấy danh sách tất cả video từ API
+  getAllVideos(): Observable<any> {
+    return this.http.get(this.allVideosUrl);
+  }
+
+  // Hàm lấy danh sách category từ API
+  getCategories(): Observable<any> {
+    return this.http.get(this.categoryUrl);
+  }
+
+  // Hàm lấy danh sách video theo category từ API
+  getVideosByCategory(category_id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/category/${category_id}`);
   }
 
   // Hàm lấy thông tin video theo id từ API

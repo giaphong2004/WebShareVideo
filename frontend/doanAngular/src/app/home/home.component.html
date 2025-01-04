@@ -4,21 +4,29 @@
         <div class="col d-flex align-items-center">
             <h1 class="h3 mb-0">Mới tải lên</h1>
         </div>
+        <div class="col-auto">
+            
+            <ng-container *ngFor="let category of categories">
+                <a class="custom-btn" (click)="filterVideosByCategory(category.id)">{{ category.category }}</a>
+            </ng-container>
+            <a class="custom-btn" (click)="filterVideosByCategory(null)">Tất cả</a>
+        </div>
     </div>
     <main class="content">
-        <div  class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-            <div *ngFor="let videos of video" class="col">
-                <a [routerLink]="['/detail',videos.video_id]" class="text-decoration-none">
+        <div *ngIf="noVideosMessage" class="alert alert-warning">{{ noVideosMessage }}</div>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+            <div *ngFor="let videos of filteredVideos" class="col">
+                <a [routerLink]="['/detail', videos.video_id]" class="text-decoration-none">
                     <div class="card h-100">
-                        <img src="{{videos.cover_url}}" class="card-img-top" alt="Placeholder Image">
+                        <img [src]="videos.cover_url" class="card-img-top" alt="Placeholder Image">
                         <div class="card-body">
                             <p class="card-text"><b>{{videos.title}}</b></p>
                             <div class="item-info">{{videos.title}}</div>
+                            <div class="category-badge">{{videos.category}}</div> <!-- Hiển thị category -->
                         </div>
                     </div>
                 </a>
             </div>
-
         </div>
     </main>
 </div>

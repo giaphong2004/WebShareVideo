@@ -183,20 +183,30 @@ app.delete("/api/user/:user_id", (req, res) => {
   });
 });
 
-// API để lấy danh sách video
+// API để lấy danh sách video kèm theo thông tin category
 app.get("/api/video", (req, res) => {
-  const query = "SELECT * FROM video";
+  const query = `
+    SELECT v.video_id, v.title, v.url_video, v.cover_url, v.detail, c.category
+    FROM video v
+    INNER JOIN category c ON c.id = v.cate_id
+  `;
   connection.query(query, (err, results) => {
     if (err) {
-      return res.status(500).json({ error: "Failed to fetch users" });
+      return res.status(500).json({ error: "Failed to fetch videos" });
     }
     res.json(results);
   });
 });
-// API lấy thông tin video theo id
+
+// API lấy thông tin video theo id kèm theo thông tin category
 app.get("/api/video/:video_id", (req, res) => {
   const { video_id } = req.params;
-  const query = "SELECT * FROM video WHERE video_id = ?";
+  const query = `
+    SELECT v.video_id, v.title, v.url_video, v.cover_url, v.detail, c.category
+    FROM video v
+    INNER JOIN category c ON c.id = v.cate_id
+    WHERE v.video_id = ?
+  `;
   connection.query(query, [video_id], (err, results) => {
     if (err) {
       return res.status(500).json({ error: "Failed to fetch video" });
@@ -208,6 +218,67 @@ app.get("/api/video/:video_id", (req, res) => {
     }
   });
 });
+
+// API để lấy danh sách video theo category
+app.get("/api/video/category/:category_id", (req, res) => {
+  const { category_id } = req.params;
+  const query = `
+    SELECT v.video_id, v.title, v.url_video, v.cover_url, v.detail, c.category
+    FROM video v
+    INNER JOIN category c ON c.id = v.cate_id
+    WHERE c.id = ?
+  `;
+  connection.query(query, [category_id], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: "Failed to fetch videos by category" });
+    }
+    res.json(results);
+  });
+});
+
+// API để lấy danh sách video theo category
+app.get("/api/videos/category/:category_id", (req, res) => {
+  const { category_id } = req.params;
+  const query = `
+    SELECT v.video_id, v.title, v.url_video, v.cover_url, v.detail, c.category
+    FROM video v
+    INNER JOIN category c ON c.id = v.cate_id
+    WHERE c.id = ?
+  `;
+  connection.query(query, [category_id], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: "Failed to fetch videos by category" });
+    }
+    res.json(results);
+  });
+});
+
+// API để lấy danh sách category hiện trên trang chủ
+app.get("/api/categories", (req, res) => {
+  const query = "SELECT id, category FROM category";
+  connection.query(query, (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: "Failed to fetch categories" });
+    }
+    res.json(results);
+  });
+});
+
+// API để lấy tất cả các video
+app.get("/api/videos", (req, res) => {
+  const query = `
+    SELECT v.video_id, v.title, v.url_video, v.cover_url, v.detail, c.category
+    FROM video v
+    INNER JOIN category c ON c.id = v.cate_id
+  `;
+  connection.query(query, (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: "Failed to fetch videos" });
+    }
+    res.json(results);
+  });
+});
+
 
 // API để xử lý dữ liệu form liên hệ
 app.post("/api/contact", (req, res) => {

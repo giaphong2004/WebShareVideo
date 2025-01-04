@@ -26,3 +26,17 @@
     width: 100%;
   }
   
+  .sidebar .sidebar-heading {
+    padding: 10px 15px;
+    font-size: 18px;
+    color: white;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  /* Tùy chỉnh đường kẻ ngang (hr) */
+.sidebar hr {
+  border: 0.3px solid #ffffff; /* Màu trắng */
+  opacity: 0.5; /* Độ mờ */
+}

@@ -10,7 +10,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   styleUrls: ['./detail.component.css']
 })
 export class DetailComponent implements OnInit {
-  video: any; // Đổi tên biến từ videos thành video để rõ ràng hơn
+  video: any; // Sử dụng tên biến video để nhất quán với template
   safeUrl: SafeResourceUrl | null = null;
 
   constructor(
@@ -30,8 +30,8 @@ export class DetailComponent implements OnInit {
     this.videoService.getVideoById(video_id).subscribe(
       data => {
         console.log('Video data:', data); // Thêm log để kiểm tra dữ liệu
-        if (data && data.length > 0) {
-          this.video = data[0]; // Truy cập đối tượng video đầu tiên trong mảng
+        if (data) {
+          this.video = data; // Truy cập đối tượng video
           this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + this.video.url_video);
         }
       },
