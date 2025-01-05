@@ -22,6 +22,7 @@ import { SidebarComponent } from './admin/sidebar/sidebar.component';
 import { EditVideoComponent } from './admin/edit-video/edit-video.component';
 import { ContentComponent } from './admin/content/content.component';
 import { AddNewComponent } from './admin/add-new/add-new.component';
+import { MessageListComponent } from './admin/message-list/message-list.component';
 
 
 
@@ -42,6 +43,7 @@ import { AddNewComponent } from './admin/add-new/add-new.component';
     EditVideoComponent,
     ContentComponent,
     AddNewComponent,
+    MessageListComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [AuthService],

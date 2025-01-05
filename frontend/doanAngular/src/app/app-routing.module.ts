@@ -1,3 +1,4 @@
+import { MessageListComponent } from './admin/message-list/message-list.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
@@ -13,6 +14,7 @@ import { AddNewComponent } from './admin/add-new/add-new.component';
 
 import{EditVideoComponent} from './admin/edit-video/edit-video.component';
 import { ContentComponent } from './admin/content/content.component';
+
 
 
 const routes: Routes = [
@@ -38,6 +40,7 @@ const routes: Routes = [
       { path: 'edit-video/video_id', component: EditVideoComponent },
       {path: 'content', component: ContentComponent},
       {path:'add-new', component: AddNewComponent},
+      {path: 'message-list', component: MessageListComponent},
       // Thêm các route khác cho admin ở đây
     ]
   },

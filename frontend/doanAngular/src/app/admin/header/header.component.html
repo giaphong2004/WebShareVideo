@@ -1,9 +1,14 @@
-<header>
+<header class="custom-header">
   <section>
     <nav>
-   
+      <!-- Nội dung của nav -->
     </nav>
   </section>
-  <script src="script.js" defer></script>
-
 </header>
+
+<script>
+  window.addEventListener('load', function() {
+    var logoHeight = document.querySelector('.side-bar .logo').offsetHeight;
+    document.querySelector('.custom-header').style.height = logoHeight + 'px';
+  });
+</script>

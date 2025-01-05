@@ -1,0 +1,98 @@
+.table-container {
+  max-width: 1200px; /* Tăng chiều rộng tối đa của bảng */
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f1f0e8; /* Màu nền nhẹ */
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  color: #89a8b2; /* Màu tiêu đề */
+  margin-bottom: 20px;
+}
+
+.add-button-container {
+  text-align: right;
+  margin-bottom: 15px;
+}
+
+.btn-add {
+  padding: 10px 20px;
+  background-color: #89a8b2; /* Màu nền nút */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-add:hover {
+  background-color: #b3c8cf; /* Màu nền nút khi hover */
+}
+
+.video-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.video-table th,
+.video-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #b3c8cf; /* Màu viền giữa các hàng */
+}
+
+.video-table th {
+  background-color: #e5e1da; /* Màu nền tiêu đề bảng */
+  color: #727d73; /* Màu chữ tiêu đề bảng */
+}
+
+.video-table tr:hover {
+  background-color: #f0f0d7; /* Màu nền khi hover hàng */
+}
+
+.actions {
+  display: flex;
+  gap: 10px; /* Khoảng cách giữa các nút */
+}
+
+.btn-delete,
+.btn-edit {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-delete {
+  background-color: #d9534f; /* Màu nền nút xóa */
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #c9302c; /* Màu nền nút xóa khi hover */
+}
+
+.btn-edit {
+  background-color: #5bc0de; /* Màu nền nút chỉnh sửa */
+  color: white;
+}
+
+.btn-edit:hover {
+  background-color: #31b0d5; /* Màu nền nút chỉnh sửa khi hover */
+}
+
+.alert {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+.alert-success {
+  background-color: #d0ddd0; /* Màu nền thông báo thành công */
+  color: #155724; /* Màu chữ thông báo thành công */
+  border: 1px solid #aab99a; /* Màu viền thông báo thành công */
+}
