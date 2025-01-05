@@ -399,6 +399,19 @@ app.post('/addComment', (req, res) => {
     }
   });
 });
+app.get('categories', (req, res) => {
+  const query = 'SELECT * FROM category';
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Error fetching categories:', err);
+      res.status(500).send('Error fetching categories');
+    } else {
+      res.json(results);
+    }
+  });
+  }); 
+
+
 
 app.listen(3000, () => {
   console.log("Server is running on http://localhost:3000");

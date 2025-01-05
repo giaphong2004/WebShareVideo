@@ -19,6 +19,9 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { HeaderComponent } from './admin/header/header.component';
 import { SidebarComponent } from './admin/sidebar/sidebar.component';
+import { EditVideoComponent } from './admin/edit-video/edit-video.component';
+import { ContentComponent } from './admin/content/content.component';
+import { AddNewComponent } from './admin/add-new/add-new.component';
 
 
 
@@ -36,6 +39,9 @@ import { SidebarComponent } from './admin/sidebar/sidebar.component';
     MainLayoutComponent,
     HeaderComponent,
     SidebarComponent,
+    EditVideoComponent,
+    ContentComponent,
+    AddNewComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [AuthService],

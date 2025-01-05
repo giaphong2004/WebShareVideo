@@ -53,8 +53,9 @@
     <a href="/contact"><i class="fa-solid fa-envelope"></i> Contact</a>
     <hr>
     <p class="sidebar-heading">Khám phá</p>
-    <a routerLink="/category/1"><i class="fa-solid fa-video"></i> Cate1</a>
-    <a routerLink="/category/2"><i class="fa-solid fa-video"></i> Cate2</a>
+    <ng-container *ngFor="let category of categories">
+      <a class="custom-btn" (click)="filterVideosByCategory(category.id)">{{ category.category }}</a>
+  </ng-container>
   </div>
   <div id="overlay" class="overlay"></div>
   <main>

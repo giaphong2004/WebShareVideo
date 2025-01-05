@@ -1,0 +1,44 @@
+<div class="container">
+    <h2>Thêm Mới Video</h2>
+<form (ngSubmit)="onSubmit()" #videoForm="ngForm" class="video-form">
+  <div class="form-group">
+    <label for="title">Tiêu Đề Video</label>
+    <input type="text" id="title" name="title" [(ngModel)]="video.title" required class="form-control" />
+  </div>
+
+  <div class="form-group">
+    <label for="url">URL Video</label>
+    <input type="url" id="url" name="url" [(ngModel)]="video.url_video" required class="form-control" />
+  </div>
+
+  <div class="form-group">
+    <label for="url">URL Video</label>
+    <input type="url" id="url" name="url" [(ngModel)]="video.cover_url" required class="form-control" />
+  </div>
+  
+  <div class="form-group">
+    <label for="detail">Mô Tả Video</label>
+    <textarea id="detail" name="detail" [(ngModel)]="video.detail" required class="form-control"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="cate_id">Danh Mục</label>
+    <select id="cate_id" name="cate_id" [(ngModel)]="video.cate_id" required class="form-control">
+      <option value="" disabled>Chọn Danh Mục</option>
+      <option *ngFor="let category of categories" [value]="category.id">{{ category.category }}</option>s
+    </select>
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary" [disabled]="!videoForm.form.valid">Thêm Video</button>
+  </div>
+</form>
+</div>
+
+<div *ngIf="successMessage" class="alert alert-success">
+  Video đã được thêm thành công!
+</div>
+<div *ngIf="errorMessage" class="alert alert-danger">
+  Đã có lỗi xảy ra. Vui lòng thử lại!
+</div>
+

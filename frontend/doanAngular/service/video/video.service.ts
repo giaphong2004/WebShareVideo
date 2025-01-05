@@ -42,6 +42,7 @@ export class VideoService {
     return this.http.get(`${this.apiUrl}/${video_id}/similar`);
   }
 
+  // Hàm thêm video mới
   addVideo(video: any): Observable<any> {
     return this.http.post(this.apiUrl, video);
   }

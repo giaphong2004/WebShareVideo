@@ -8,6 +8,11 @@ import { SignupComponent } from './signup/signup.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { DetailComponent } from './detail/detail.component';
+import { AddNewComponent } from './admin/add-new/add-new.component';
+
+
+import{EditVideoComponent} from './admin/edit-video/edit-video.component';
+import { ContentComponent } from './admin/content/content.component';
 
 
 const routes: Routes = [
@@ -30,6 +35,9 @@ const routes: Routes = [
     component: AdminLayoutComponent,
     children: [
       {path: "admin", component: AdminLayoutComponent},
+      { path: 'edit-video/video_id', component: EditVideoComponent },
+      {path: 'content', component: ContentComponent},
+      {path:'add-new', component: AddNewComponent},
       // Thêm các route khác cho admin ở đây
     ]
   },
