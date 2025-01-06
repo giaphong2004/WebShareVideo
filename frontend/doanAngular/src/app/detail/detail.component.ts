@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { VideoService } from '../../../service/video/video.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CommentsService } from '../../../service/comments.service';
+import { UserService } from '../../../service/user/user.service';
+import { AuthService } from '../../../service/auth/auth.service';
 
 @Component({
   selector: 'app-detail',
@@ -12,21 +14,27 @@ import { CommentsService } from '../../../service/comments.service';
 })
 export class DetailComponent implements OnInit {
   video: any; // Sử dụng tên biến video để nhất quán với template
-  similarVideos: any[] = [];
-  safeUrl: SafeResourceUrl | null = null;
-  likeCount: number = 0;
-  dislikeCount: number = 0;
-  hasLiked: boolean = false;
-  hasDisliked: boolean = false;
-  newComment: string = '';
-  comments: { id: number; username: string; text: string }[] = [];
-  currentUsername: string = '';
+  similarVideos: any[] = []; // Sử dụng tên biến similarVideos để nhất quán với template
+  safeUrl: SafeResourceUrl | null = null; // Sử dụng tên biến safeUrl để nhất quán với template
+  likeCount: number = 0; // Thêm likeCount để lưu số lượt like
+  dislikeCount: number = 0; // Thêm dislikeCount để lưu số lượt dislike
+  hasLiked: boolean = false; // Thêm hasLiked để kiểm tra xem người dùng đã like chưa
+  hasDisliked: boolean = false; // Thêm hasDisliked để kiểm tra xem người dùng đã dislike chưa
+  newComment: string = ''; // Thêm newComment để lưu nội dung comment mới
+  comments: {
+    comment: string;
+    user_uname: string; // Thêm user_uname để lưu tên người dùng
+    video_id: number;
+  }[] = [];
+  currentUserId: number = 1; // Thêm currentUserId để lưu id người dùng hiện tại
+  userId: number = 0; // Thêm userId để lưu id người dùng hiện tại
 
   constructor(
     private route: ActivatedRoute,
     private videoService: VideoService,
     private sanitizer: DomSanitizer,
-    private commentsService: CommentsService
+    private commentsService: CommentsService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -34,6 +42,10 @@ export class DetailComponent implements OnInit {
       const video_id = params['video_id'];
       this.loadVideo(video_id);
       this.loadSimilarVideos(video_id);
+      this.loadComments(video_id);
+    });
+    this.authService.currentUserId.subscribe((userId) => {
+      this.userId = userId;
     });
   }
 
@@ -149,68 +161,49 @@ export class DetailComponent implements OnInit {
       }
     }
   }
-  addComment(): void {
-    if (this.newComment.trim()) {
-      const comment = {
-        videoId: this.video.id,
-        username: this.currentUsername,
-        text: this.newComment,
-      };
-      this.commentsService.addComment(comment).subscribe(
-        (response: any) => {
-          this.comments.push({
-            id: response.id,
-            username: this.currentUsername,
-            text: this.newComment,
-          });
-          this.newComment = '';
-        },
-        (error) => {
-          console.error('Error adding comment:', error);
-        }
-      );
-    }
-  }
 
-  deleteComment(commentId: number): void {
-    this.commentsService.deleteComment(commentId).subscribe(
-      () => {
-        this.comments = this.comments.filter(
-          (comment) => comment.id !== commentId
-        );
-      },
-      (error) => {
-        console.error('Error deleting comment:', error);
-      }
-    );
-  }
 
-  updateComment(commentId: number, newText: string): void {
-    this.commentsService.updateComment(commentId, newText).subscribe(
-      () => {
-        const comment = this.comments.find(
-          (comment) => comment.id === commentId
-        );
-        if (comment) {
-          comment.text = newText;
-        }
-      },
-      (error) => {
-        console.error('Error updating comment:', error);
-      }
-    );
-  }
-
+  // loadComments(video_id: number) {
+  //   this.commentsService.getComments(video_id).subscribe(
+  //     (data) => {
+  //       console.log('Comments data:', data); // Thêm log để kiểm tra dữ liệu
+  //       this.comments = data;
+  //     },
+  //     (error) => {
+  //       console.error('Error loading comments:', error);
+  //     }
+  //   );
+  // }
   loadComments(video_id: number) {
     this.commentsService.getComments(video_id).subscribe(
       (data) => {
+        console.log('Comments data:', data);
         this.comments = data;
-      },
-      (error) => {
-        console.error('Error loading comments:', error);
       }
     );
   }
+  //thêm comment
+  addComment(): void {
+    if (this.newComment) {
+      if (this.currentUserId !== null) {
+        this.commentsService
+          .addComment(this.currentUserId, this.video.video_id, this.newComment)
+          .subscribe(
+            (data) => {
+              console.log('Comment added:', data); // Thêm log để kiểm tra dữ liệu
+              this.loadComments(this.video.id);
+              this.newComment = '';
+            },
+            (error) => {
+              console.error('Error adding comment:', error);
+            }
+          );
+      } else {
+        console.error('User ID is null, cannot add comment.');
+      }
+    }
+  }
+
   shareVideo(): void {
     const videoUrl = window.location.href; // Lấy URL hiện tại
     if (navigator.share) {

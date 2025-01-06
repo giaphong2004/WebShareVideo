@@ -28,7 +28,10 @@ iframe {
   border-radius: 8px;
 }
 
-
+.btn-comment {
+  background-color: #079057;
+  color: snow;
+}
 .comment-section {
   margin-top: 20px;
 }

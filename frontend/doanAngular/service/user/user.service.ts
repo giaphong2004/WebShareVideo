@@ -34,4 +34,8 @@ export class UserService {
     // lấy dữ liệu từ server json-server theo id
     return this.http.get(`${this.apiUrl}/${user_id}`); // trả về dữ liệu
   }
+  // Thêm phương thức để lấy thông tin người dùng hiện tại
+  currentUserId(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/current`);
+  }
 }

@@ -9,6 +9,7 @@ import { BehaviorSubject } from 'rxjs';
 export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(false);
   private username = new BehaviorSubject<string>('');
+  private userId = new BehaviorSubject<number>(0);
   private role = new BehaviorSubject<string>('');
 
   get isLoggedIn() {
@@ -17,6 +18,9 @@ export class AuthService {
 
   get currentUsername() {
     return this.username.asObservable();
+  }
+  get currentUserId() {
+    return this.userId.asObservable();
   }
 
   get currentRole() {
@@ -28,9 +32,11 @@ export class AuthService {
     if (this.isLocalStorageAvailable()) {
       const loggedIn = JSON.parse(localStorage.getItem('loggedIn') || 'false');
       const username = localStorage.getItem('username') || '';
+      const userId = localStorage.getItem('userId') || '';
       const role = localStorage.getItem('role') || '';
       this.loggedIn.next(loggedIn);
       this.username.next(username);
+      this.userId.next(parseInt(userId));
       this.role.next(role);
     }
   }
@@ -45,6 +51,7 @@ export class AuthService {
           if (this.isLocalStorageAvailable()) {
             localStorage.setItem('loggedIn', JSON.stringify(true));
             localStorage.setItem('username', user.username);
+            localStorage.setItem('userId', response.userId);
             localStorage.setItem('role', response.role);
           }
           // Điều hướng dựa trên vai trò của người dùng
@@ -74,6 +81,7 @@ export class AuthService {
           if (this.isLocalStorageAvailable()) {
             localStorage.removeItem('loggedIn');
             localStorage.removeItem('username');
+            localStorage.removeItem('userId');
             localStorage.removeItem('role');
           }
           this.router.navigate(['/login']);

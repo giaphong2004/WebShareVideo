@@ -16,7 +16,7 @@ export class MainLayoutComponent implements OnInit {
   selectedCategory: number | null = null;
   noVideosMessage: string = '';
   categories: any[] = [];
-  isDropdownVisible: boolean = false; 
+  isDropdownVisible: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -35,8 +35,6 @@ export class MainLayoutComponent implements OnInit {
       this.username = username;
     });
   }
-
- 
 
   // Toggle hiển thị dropdown khi bấm vào avatar
   toggleDropdown() {

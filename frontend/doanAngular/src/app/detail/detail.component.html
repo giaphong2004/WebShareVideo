@@ -53,14 +53,14 @@
             placeholder="Viết bình luận..."
           ></textarea>
         </div>
-        <button class="btn btn-primary" (click)="addComment()">Gửi</button>
+        <button class="btn btn-comment" type="submit" (click)="addComment()">Bình luận</button>
         <div class="mt-3">
           <div *ngFor="let comment of comments" class="mb-2">
             <div class="border p-2 rounded">
               <p class="mb-1">
-                <strong>{{ comment.username }}</strong>
+                <strong>{{ comment.user_uname }}</strong>
               </p>
-              <p class="mb-0">{{ comment.text }}</p>
+              <p class="mb-0">{{ comment.comment }}</p>
             </div>
           </div>
         </div>

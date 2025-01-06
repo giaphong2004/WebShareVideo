@@ -4,6 +4,7 @@ const session = require("express-session");
 const path = require("path");
 const cors = require("cors"); // Import cors
 const mysql = require("mysql");
+const { get } = require("http");
 
 const connection = mysql.createConnection({
   host: "localhost",
@@ -164,7 +165,6 @@ app.get("/api/user/:user_id", (req, res) => {
   });
 });
 
-
 // Cập nhật người dùng
 app.put("/api/user/:user_id", (req, res) => {
   const { user_id } = req.params;
@@ -175,6 +175,7 @@ app.put("/api/user/:user_id", (req, res) => {
     res.send("Cập nhật thông tin thành công!");
   });
 });
+
 // Xóa người dùng
 app.delete("/api/user/:user_id", (req, res) => {
   const { user_id } = req.params;
@@ -232,7 +233,9 @@ app.get("/api/video/category/:category_id", (req, res) => {
   `;
   connection.query(query, [category_id], (err, results) => {
     if (err) {
-      return res.status(500).json({ error: "Failed to fetch videos by category" });
+      return res
+        .status(500)
+        .json({ error: "Failed to fetch videos by category" });
     }
     res.json(results);
   });
@@ -249,7 +252,9 @@ app.get("/api/videos/category/:category_id", (req, res) => {
   `;
   connection.query(query, [category_id], (err, results) => {
     if (err) {
-      return res.status(500).json({ error: "Failed to fetch videos by category" });
+      return res
+        .status(500)
+        .json({ error: "Failed to fetch videos by category" });
     }
     res.json(results);
   });
@@ -281,7 +286,6 @@ app.get("/api/videos", (req, res) => {
   });
 });
 
-
 // API để xử lý dữ liệu form liên hệ
 app.post("/api/contact", (req, res) => {
   const { name, email, message } = req.body;
@@ -299,7 +303,6 @@ app.post("/api/contact", (req, res) => {
   });
 });
 
-// 
 // API để thêm video
 app.post("/api/video", (req, res) => {
   const { title, url_video, cover_url, detail, cate_id } = req.body;
@@ -316,16 +319,23 @@ app.post("/api/video", (req, res) => {
     }
   );
 });
+
 // Cập nhật video
 app.put("/api/video/:video_id", (req, res) => {
   const { video_id } = req.params;
   const { title, url_video, cover_url, detail, cate_id } = req.body;
-  const sql = "UPDATE video SET title = ?, url_video = ?, cover_url = ?, detail = ?, cate_id = ? WHERE video_id = ?";
-  connection.query(sql, [title, url_video, cover_url, detail, cate_id, video_id], (err, result) => {
-    if (err) throw err;
-    res.send("Cập nhật thông tin thành công!");
-  });
+  const sql =
+    "UPDATE video SET title = ?, url_video = ?, cover_url = ?, detail = ?, cate_id = ? WHERE video_id = ?";
+  connection.query(
+    sql,
+    [title, url_video, cover_url, detail, cate_id, video_id],
+    (err, result) => {
+      if (err) throw err;
+      res.send("Cập nhật thông tin thành công!");
+    }
+  );
 });
+
 // Xóa video
 app.delete("/api/video/:video_id", (req, res) => {
   const { video_id } = req.params;
@@ -335,7 +345,6 @@ app.delete("/api/video/:video_id", (req, res) => {
     res.send("Đã xoá");
   });
 });
-
 
 // API để lấy danh sách tin nhắn liên hệ
 app.get("/api/contact-messages", (req, res) => {
@@ -353,23 +362,18 @@ app.get("/api/contact-messages", (req, res) => {
 // API để lấy các video tương tự dựa trên ID của video hiện tại
 app.get("/api/video/:video_id/similar", (req, res) => {
   const { video_id } = req.params;
-
   // Truy vấn để lấy cate_id của video hiện tại
   const getCategoryQuery = `
     SELECT cate_id FROM video WHERE video_id = ?
   `;
-
   connection.query(getCategoryQuery, [video_id], (err, categoryResults) => {
     if (err) {
       return res.status(500).json({ error: "Failed to fetch category" });
     }
-
     if (categoryResults.length === 0) {
       return res.status(404).json({ error: "Video not found" });
     }
-
     const cate_id = categoryResults[0].cate_id;
-
     // Truy vấn để lấy các video tương tự
     const getSimilarVideosQuery = `
       SELECT v.video_id, v.title, v.url_video, v.cover_url, v.detail, c.category
@@ -378,58 +382,102 @@ app.get("/api/video/:video_id/similar", (req, res) => {
       WHERE v.video_id != ? AND v.cate_id = ?
       LIMIT 5
     `;
-
-    connection.query(getSimilarVideosQuery, [video_id, cate_id], (err, results) => {
-      if (err) {
-        return res.status(500).json({ error: "Failed to fetch similar videos" });
+    connection.query(
+      getSimilarVideosQuery,
+      [video_id, cate_id],
+      (err, results) => {
+        if (err) {
+          return res
+            .status(500)
+            .json({ error: "Failed to fetch similar videos" });
+        }
+        res.json(results);
       }
-      res.json(results);
-    });
+    );
   });
 });
 
-// Route để thêm bình luận
-app.post('/addComment', (req, res) => {
-  const { videoId, username, text } = req.body;
-  const query = 'INSERT INTO comments (video_id, user_id, comment) VALUES (?, ?, ?)';
-  connection.query(query, [videoId, username, text], (err, result) => {
-    if (err) {
-      console.error('Error inserting comment:', err);
-      res.status(500).send('Error inserting comment');
-    } else {
-      res.status(200).send('Comment added successfully');
-    }
-  });
-});
-app.get('categories', (req, res) => {
-  const query = 'SELECT * FROM category';
+app.get("/api/comments", (req, res) => {
+  const query = "SELECT * FROM comment";
   connection.query(query, (err, results) => {
     if (err) {
-      console.error('Error fetching categories:', err);
-      res.status(500).send('Error fetching categories');
+      return res.status(500).json({ error: "Failed to fetch comments" });
+    }
+    res.json(results);
+  });
+});
+
+
+// API để lấy danh sách comment theo video_id
+app.get("/api/comments/:video_id", (req, res) => {
+  const { video_id } = req.params;
+  const query = `
+    SELECT cm.comment_id, cm.comment, u.user_uname 
+    FROM comment cm 
+    INNER JOIN user u ON u.user_id = cm.user_id 
+    WHERE cm.video_id = ?
+  `;
+  connection.query(query, [video_id], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: "Failed to fetch comments" });
+    }
+    res.json(results);
+  });
+});
+
+// API để thêm comment
+app.post("/api/comments/:video_id", (req, res) => {
+  const { comment, user_id, video_id } = req.body;
+  const query = "INSERT INTO comment (comment, user_id, video_id) VALUES (?, ?, ?)";
+  connection.query(query, [comment, user_id, video_id], (err, results) => {
+    if (err) {
+      console.error(err.stack);
+      return res.status(500).json({ error: "Failed to add comment" });
+    }
+    res.json({ success: true, message: "Comment added successfully!" });
+  });
+});
+
+// API để xóa comment
+app.delete("/api/comment/:comment_id", (req, res) => {
+  const { comment_id } = req.params;
+  const sql = "DELETE FROM comment WHERE comment_id = ?";
+  connection.query(sql, [comment_id], (err, result) => {
+    if (err) throw err;
+    res.send("Đã xoá");
+  });
+});
+
+// get categories
+app.get("categories", (req, res) => {
+  const query = "SELECT * FROM category";
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error("Error fetching categories:", err);
+      res.status(500).send("Error fetching categories");
     } else {
       res.json(results);
     }
   });
-  }); 
+});
 
 // Middleware để kiểm tra quyền của người dùng
 function checkRole(role) {
   return (req, res, next) => {
     const userId = req.session.userId; // Giả sử bạn lưu trữ userId trong session
     if (!userId) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ error: "Unauthorized" });
     }
 
-    const query = 'SELECT role FROM user WHERE user_id = ?';
+    const query = "SELECT role FROM user WHERE user_id = ?";
     connection.query(query, [userId], (err, results) => {
       if (err || results.length === 0) {
-        return res.status(500).json({ error: 'Failed to fetch user role' });
+        return res.status(500).json({ error: "Failed to fetch user role" });
       }
 
       const userRole = results[0].role;
       if (userRole !== role) {
-        return res.status(403).json({ error: 'Forbidden' });
+        return res.status(403).json({ error: "Forbidden" });
       }
 
       next();
@@ -438,8 +486,8 @@ function checkRole(role) {
 }
 
 // Ví dụ sử dụng middleware để kiểm tra quyền admin
-app.get('/api/admin', checkRole('admin'), (req, res) => {
-  res.json({ message: 'Welcome, admin!' });
+app.get("/api/admin", checkRole("admin"), (req, res) => {
+  res.json({ message: "Welcome, admin!" });
 });
 
 app.listen(3000, () => {
