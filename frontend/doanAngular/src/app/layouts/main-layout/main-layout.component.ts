@@ -17,10 +17,12 @@ export class MainLayoutComponent implements OnInit {
   noVideosMessage: string = '';
   categories: any[] = [];
   isDropdownVisible: boolean = false; 
+  role: string = '';
 
   constructor(
     private authService: AuthService,
     private router: Router,
+    
     private videoService: VideoService // Inject VideoService
   ) {}
 
@@ -33,6 +35,9 @@ export class MainLayoutComponent implements OnInit {
 
     this.authService.currentUsername.subscribe((username) => {
       this.username = username;
+    });
+    this.authService.currentRole.subscribe((role) => {
+      this.role = role;
     });
   }
 

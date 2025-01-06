@@ -42,6 +42,9 @@
   <div id="sidebar" class="sidebar">
     <a href="#" class="closebtn" id="closeSidebar"><i class="fas fa-times"></i></a>
     <a href="/"><i class="fa-solid fa-house"></i> Home</a>
+    <ng-container *ngIf="role === 'admin'">
+      <a routerLink="/admin"><i class="fa-solid fa-user-shield"></i> Admin</a>
+    </ng-container>
     <a href="/about"><i class="fa-solid fa-address-card"></i> About</a>
     <a href="/contact"><i class="fa-solid fa-envelope"></i> Contact</a>
     <hr>
