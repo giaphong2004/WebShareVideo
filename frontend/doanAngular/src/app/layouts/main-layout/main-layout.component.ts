@@ -10,20 +10,23 @@ import { VideoService } from '../../../../service/video/video.service'; // Impor
   styleUrls: ['./main-layout.component.css']
 })
 export class MainLayoutComponent implements OnInit {
-  title = 'doanAngular';
-  isLoggedIn = false;
-  username = '';
+  isLoggedIn: boolean = false;
+  username: string = '';
   filteredVideos: any[] = [];
   selectedCategory: number | null = null;
   noVideosMessage: string = '';
   categories: any[] = [];
-  isDropdownVisible: boolean = false; // Trạng thái của dropdown (hiển thị hay không)
+  isDropdownVisible: boolean = false; 
 
   constructor(
-    public authService: AuthService,
+    private authService: AuthService,
     private router: Router,
     private videoService: VideoService // Inject VideoService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
+    this.loadCategories();
+    this.loadAllVideos();
     this.authService.isLoggedIn.subscribe((loggedIn) => {
       this.isLoggedIn = loggedIn;
     });
@@ -33,15 +36,12 @@ export class MainLayoutComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.loadCategories();
-    this.loadAllVideos();
-  }
+ 
 
   // Toggle hiển thị dropdown khi bấm vào avatar
   toggleDropdown() {
-    console.log('Dropdown toggled');
     this.isDropdownVisible = !this.isDropdownVisible;
+    console.log('Dropdown toggled');
     console.log('Dropdown visible:', this.isDropdownVisible);
   }
 

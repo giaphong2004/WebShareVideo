@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,withFetch }  from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +9,7 @@ import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
 export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(false);
   private username = new BehaviorSubject<string>('');
+  private role = new BehaviorSubject<string>('');
 
   get isLoggedIn() {
     return this.loggedIn.asObservable();
@@ -18,13 +19,19 @@ export class AuthService {
     return this.username.asObservable();
   }
 
+  get currentRole() {
+    return this.role.asObservable();
+  }
+
   constructor(private http: HttpClient, private router: Router) {
     // Initialize from localStorage if available
     if (this.isLocalStorageAvailable()) {
       const loggedIn = JSON.parse(localStorage.getItem('loggedIn') || 'false');
       const username = localStorage.getItem('username') || '';
+      const role = localStorage.getItem('role') || '';
       this.loggedIn.next(loggedIn);
       this.username.next(username);
+      this.role.next(role);
     }
   }
 
@@ -34,11 +41,18 @@ export class AuthService {
         if (response.success) {
           this.loggedIn.next(true);
           this.username.next(user.username);
+          this.role.next(response.role);
           if (this.isLocalStorageAvailable()) {
             localStorage.setItem('loggedIn', JSON.stringify(true));
             localStorage.setItem('username', user.username);
+            localStorage.setItem('role', response.role);
           }
-          this.router.navigate(['']);
+          // Điều hướng dựa trên vai trò của người dùng
+          if (response.role === 'admin') {
+            this.router.navigate(['/admin']);
+          } else {
+            this.router.navigate(['/home']);
+          }
         } else {
           alert(response.message);
         }
@@ -56,9 +70,11 @@ export class AuthService {
         if (response.success) {
           this.loggedIn.next(false);
           this.username.next('');
+          this.role.next('');
           if (this.isLocalStorageAvailable()) {
             localStorage.removeItem('loggedIn');
             localStorage.removeItem('username');
+            localStorage.removeItem('role');
           }
           this.router.navigate(['/login']);
         } else {

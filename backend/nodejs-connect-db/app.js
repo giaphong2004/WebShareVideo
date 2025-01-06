@@ -57,8 +57,10 @@ app.post("/auth", function (request, response) {
         if (error) throw error;
         if (results.length > 0) {
           request.session.loggedin = true;
+          request.session.userId = results[0].user_id; // Lưu userId vào session
           request.session.username = username;
-          response.json({ success: true });
+          request.session.role = results[0].role; // Lưu role vào session
+          response.json({ success: true, role: results[0].role });
         } else {
           response.status(400).json({
             success: false,
@@ -411,7 +413,34 @@ app.get('categories', (req, res) => {
   });
   }); 
 
+// Middleware để kiểm tra quyền của người dùng
+function checkRole(role) {
+  return (req, res, next) => {
+    const userId = req.session.userId; // Giả sử bạn lưu trữ userId trong session
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
 
+    const query = 'SELECT role FROM user WHERE user_id = ?';
+    connection.query(query, [userId], (err, results) => {
+      if (err || results.length === 0) {
+        return res.status(500).json({ error: 'Failed to fetch user role' });
+      }
+
+      const userRole = results[0].role;
+      if (userRole !== role) {
+        return res.status(403).json({ error: 'Forbidden' });
+      }
+
+      next();
+    });
+  };
+}
+
+// Ví dụ sử dụng middleware để kiểm tra quyền admin
+app.get('/api/admin', checkRole('admin'), (req, res) => {
+  res.json({ message: 'Welcome, admin!' });
+});
 
 app.listen(3000, () => {
   console.log("Server is running on http://localhost:3000");
