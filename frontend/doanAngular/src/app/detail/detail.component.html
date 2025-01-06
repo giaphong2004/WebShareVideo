@@ -21,45 +21,51 @@
 
       <div class="mt-3">
         <div class="d-flex justify-content-between">
-          <h3 class="fw-bold">{{ video.title }}</h3><br>
-          
+          <h3 class="fw-bold">{{ video.title }}</h3>
+          <br />
+
           <div class="float-end">
             <button class="btn btn-outline-primary me-3" (click)="likeVideo()">
-              <i class="fa-regular fa-thumbs-up me-1" ></i> Thích
-              <span>{{likeCount}}</span>
+              <i class="fa-regular fa-thumbs-up me-1"></i> Thích
+              <span>{{ likeCount }}</span>
             </button>
             <button class="btn btn-outline-danger" (click)="dislikeVideo()">
               <i class="fa-regular fa-thumbs-down me-1"></i> Không thích
-              <span>{{dislikeCount}}</span>
+              <span>{{ dislikeCount }}</span>
+            </button>
+            <button class="btn btn-outline-secondary ms-1" (click)="shareVideo()">
+                <i class="fa-regular fa-share"></i>Chia sẻ
             </button>
           </div>
         </div>
-        <div class="description"><p >{{ video.detail }}</p></div>
+        <div class="description">
+          <p>{{ video.detail }}</p>
+        </div>
       </div>
       <!-- Comment Section -->
-<div class="mt-3">
-  <h4>Bình luận</h4>
-  <div class="mb-3">
-    <textarea
-      class="form-control"
-      [(ngModel)]="newComment"
-      rows="3"
-      placeholder="Viết bình luận..."
-    ></textarea>
-  </div>
-  <button class="btn btn-primary" (click)="addComment()">Gửi</button>
-  <div class="mt-3">
-    <div *ngFor="let comment of comments" class="mb-2">
-      <div class="border p-2 rounded">
-        <p class="mb-1">
-          <strong>{{ comment.username }}</strong>
-        </p>
-        <p class="mb-0">{{ comment.text }}</p>
+      <div class="mt-3">
+        <h4>Bình luận</h4>
+        <div class="mb-3">
+          <textarea
+            class="form-control"
+            [(ngModel)]="newComment"
+            rows="3"
+            placeholder="Viết bình luận..."
+          ></textarea>
+        </div>
+        <button class="btn btn-primary" (click)="addComment()">Gửi</button>
+        <div class="mt-3">
+          <div *ngFor="let comment of comments" class="mb-2">
+            <div class="border p-2 rounded">
+              <p class="mb-1">
+                <strong>{{ comment.username }}</strong>
+              </p>
+              <p class="mb-0">{{ comment.text }}</p>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
-<!-- End Comment Section -->
+      <!-- End Comment Section -->
     </div>
     <!-- End main content -->
 
@@ -85,6 +91,5 @@
       </div>
     </div>
     <!-- End sidebar -->
-
   </div>
 </div>
