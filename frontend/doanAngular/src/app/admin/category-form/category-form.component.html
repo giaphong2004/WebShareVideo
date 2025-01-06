@@ -1,0 +1,7 @@
+<h2>{{ id ? 'Edit Category' : 'Add New Category' }}</h2>
+<form (ngSubmit)="saveCategory()">
+<label for="category">Category</label>
+<input type="text" id="category" [(ngModel)]="category.category" name="category" required>
+
+<button type="submit">{{ id ? 'Update' : 'Add' }}</button>
+</form>

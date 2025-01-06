@@ -5,6 +5,10 @@ const path = require("path");
 const cors = require("cors"); // Import cors
 const mysql = require("mysql");
 
+const app = express();
+
+app.use(bodyParser.json());
+
 const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -19,8 +23,6 @@ connection.connect(function (err) {
   }
   console.log("Connected to the database as id " + connection.threadId);
 });
-
-const app = express();
 
 app.use(cors()); // Use cors middleware
 
@@ -266,6 +268,71 @@ app.get("/api/categories", (req, res) => {
   });
 });
 
+
+// API để thêm category
+app.post('/api/categories', (req, res) => {
+  const { category } = req.body;
+  const sql = 'INSERT INTO category (category) VALUES (?)';
+  connection.query(sql, [category], (err, result) => {
+    if (err) {
+      console.error('Error adding category:', err);
+      res.status(500).send({ error: 'Error adding category' });
+    } else {
+      res.send({ message: 'Category added successfully' });
+    }
+  });
+});
+  // API để cập nhật category
+  app.put('/api/categories/:id', (req, res) => {
+    const { id } = req.params;
+    const { category } = req.body;
+    const sql = 'UPDATE category SET category = ? WHERE id = ?';
+    connection.query(sql, [category, id], (err, result) => {
+      if (err) {
+        console.error('Error updating category:', err);
+        res.status(500).send({ error: 'Error updating category' });
+      } else if (result.affectedRows === 0) {
+        res.status(404).send({ error: 'Category not found' });
+      } else {
+        res.send({ message: 'Category updated successfully' });
+      }
+    });
+  });
+
+  //API để lấy thông tin category theo id
+  app.get('/api/categories/:id', (req, res) => {
+    const { id } = req.params;
+    const sql = 'SELECT * FROM category WHERE id = ?';
+    connection.query(sql, [id], (err, result) => {
+      if (err) {
+        console.error('Error fetching category:', err);
+        res.status(500).send('Error fetching category');
+      } else if (result.length === 0) {
+        res.status(404).send('Category not found');
+      } else {
+        res.json(result[0]);
+      }
+    });
+  });
+
+
+
+  // API để xóa category
+  app.delete('/api/categories/:id', (req, res) => {
+  const { id } = req.params;
+  const sql = 'DELETE FROM category WHERE id = ?';
+  connection.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error('Error deleting category:', err);
+      res.status(500).send({ error: 'Error deleting category' });
+    } else if (result.affectedRows === 0) {
+      res.status(404).send({ error: 'Category not found' });
+    } else {
+      res.send({ message: 'Category deleted successfully' });
+    }
+  });
+});
+
 // API để lấy tất cả các video
 app.get("/api/videos", (req, res) => {
   const query = `
@@ -442,6 +509,7 @@ app.get('/api/admin', checkRole('admin'), (req, res) => {
   res.json({ message: 'Welcome, admin!' });
 });
 
-app.listen(3000, () => {
-  console.log("Server is running on http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

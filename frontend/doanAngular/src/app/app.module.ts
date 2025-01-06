@@ -23,6 +23,8 @@ import { EditVideoComponent } from './admin/edit-video/edit-video.component';
 import { ContentComponent } from './admin/content/content.component';
 import { AddNewComponent } from './admin/add-new/add-new.component';
 import { MessageListComponent } from './admin/message-list/message-list.component';
+import { CategoryListComponent } from './admin/category-list/category-list.component';
+import { CategoryFormComponent } from './admin/category-form/category-form.component';
 
 
 
@@ -44,6 +46,8 @@ import { MessageListComponent } from './admin/message-list/message-list.componen
     ContentComponent,
     AddNewComponent,
     MessageListComponent,
+    CategoryListComponent,
+    CategoryFormComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [AuthService],

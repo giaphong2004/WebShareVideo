@@ -1,0 +1,25 @@
+<h2>Danh sách Category</h2>
+<div class="container">
+  <button routerLink="/admin/add-category" class="btn btn-primary">Add New Category</button>
+  <div class="table-container justify-content-center">
+    <table class="video-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Category</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let category of categories">
+          <td>{{ category.id }}</td>
+          <td>{{ category.category }}</td>
+          <td>
+            <button (click)="deleteCategory(category.id)" class="btn btn-danger">Xóa</button>
+            <button [routerLink]="['/admin/edit-category', category.id]" class="btn btn-warning">Sửa</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
