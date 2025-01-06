@@ -8,7 +8,7 @@ import { CommentsService } from '../../../service/comments.service';
   selector: 'app-detail',
   templateUrl: './detail.component.html',
   standalone: false,
-  styleUrls: ['./detail.component.css']
+  styleUrls: ['./detail.component.css'],
 })
 export class DetailComponent implements OnInit {
   video: any; // Sử dụng tên biến video để nhất quán với template
@@ -19,7 +19,7 @@ export class DetailComponent implements OnInit {
   hasLiked: boolean = false;
   hasDisliked: boolean = false;
   newComment: string = '';
-  comments: { id: number, username: string, text: string }[] = [];
+  comments: { id: number; username: string; text: string }[] = [];
   currentUsername: string = '';
 
   constructor(
@@ -30,25 +30,25 @@ export class DetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       const video_id = params['video_id'];
       this.loadVideo(video_id);
       this.loadSimilarVideos(video_id);
     });
   }
 
-  
-
   loadVideo(video_id: number) {
     this.videoService.getVideoById(video_id).subscribe(
-      data => {
+      (data) => {
         console.log('Video data:', data); // Thêm log để kiểm tra dữ liệu
         if (data) {
           this.video = data; // Truy cập đối tượng video
-          this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + this.video.url_video);
+          this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+            'https://www.youtube.com/embed/' + this.video.url_video
+          );
         }
       },
-      error => {
+      (error) => {
         console.error('There was an error!', error);
       }
     );
@@ -56,11 +56,11 @@ export class DetailComponent implements OnInit {
 
   loadSimilarVideos(video_id: number) {
     this.videoService.getSimilarVideos(video_id).subscribe(
-      data => {
+      (data) => {
         console.log('Similar videos data:', data); // Thêm log để kiểm tra dữ liệu
         this.similarVideos = data;
       },
-      error => {
+      (error) => {
         console.error('There was an error!', error);
       }
     );
@@ -75,7 +75,9 @@ export class DetailComponent implements OnInit {
   }
 
   checkIfDisliked(video_id: number) {
-    const dislikedVideos = JSON.parse(localStorage.getItem('dislikedVideos') || '[]');
+    const dislikedVideos = JSON.parse(
+      localStorage.getItem('dislikedVideos') || '[]'
+    );
     this.hasDisliked = dislikedVideos.includes(video_id);
     if (this.hasDisliked) {
       this.dislikeCount++;
@@ -84,7 +86,9 @@ export class DetailComponent implements OnInit {
 
   likeVideo(): void {
     const likedVideos = JSON.parse(localStorage.getItem('likedVideos') || '[]');
-    const dislikedVideos = JSON.parse(localStorage.getItem('dislikedVideos') || '[]');
+    const dislikedVideos = JSON.parse(
+      localStorage.getItem('dislikedVideos') || '[]'
+    );
 
     if (this.hasLiked) {
       this.likeCount--;
@@ -114,7 +118,9 @@ export class DetailComponent implements OnInit {
   }
 
   dislikeVideo(): void {
-    const dislikedVideos = JSON.parse(localStorage.getItem('dislikedVideos') || '[]');
+    const dislikedVideos = JSON.parse(
+      localStorage.getItem('dislikedVideos') || '[]'
+    );
     const likedVideos = JSON.parse(localStorage.getItem('likedVideos') || '[]');
 
     if (this.hasDisliked) {
@@ -141,18 +147,25 @@ export class DetailComponent implements OnInit {
         }
         localStorage.setItem('likedVideos', JSON.stringify(likedVideos));
       }
-
     }
   }
   addComment(): void {
     if (this.newComment.trim()) {
-      const comment = { videoId: this.video.id, username: this.currentUsername, text: this.newComment };
+      const comment = {
+        videoId: this.video.id,
+        username: this.currentUsername,
+        text: this.newComment,
+      };
       this.commentsService.addComment(comment).subscribe(
         (response: any) => {
-          this.comments.push({ id: response.id, username: this.currentUsername, text: this.newComment });
+          this.comments.push({
+            id: response.id,
+            username: this.currentUsername,
+            text: this.newComment,
+          });
           this.newComment = '';
         },
-        error => {
+        (error) => {
           console.error('Error adding comment:', error);
         }
       );
@@ -162,9 +175,11 @@ export class DetailComponent implements OnInit {
   deleteComment(commentId: number): void {
     this.commentsService.deleteComment(commentId).subscribe(
       () => {
-        this.comments = this.comments.filter(comment => comment.id !== commentId);
+        this.comments = this.comments.filter(
+          (comment) => comment.id !== commentId
+        );
       },
-      error => {
+      (error) => {
         console.error('Error deleting comment:', error);
       }
     );
@@ -173,26 +188,56 @@ export class DetailComponent implements OnInit {
   updateComment(commentId: number, newText: string): void {
     this.commentsService.updateComment(commentId, newText).subscribe(
       () => {
-        const comment = this.comments.find(comment => comment.id === commentId);
+        const comment = this.comments.find(
+          (comment) => comment.id === commentId
+        );
         if (comment) {
           comment.text = newText;
         }
       },
-      error => {
+      (error) => {
         console.error('Error updating comment:', error);
       }
     );
   }
-  
+
   loadComments(video_id: number) {
     this.commentsService.getComments(video_id).subscribe(
-      data => {
+      (data) => {
         this.comments = data;
       },
-      error => {
+      (error) => {
         console.error('Error loading comments:', error);
       }
     );
   }
+  shareVideo(): void {
+    const videoUrl = window.location.href; // Lấy URL hiện tại
+    if (navigator.share) {
+      // Kiểm tra xem trình duyệt có hỗ trợ chia sẻ không
+      navigator
+        .share({
+          // Sử dụng API chia sẻ
+          title: this.video.title,
+          text: 'Check out this video!', // Thêm text để chia sẻ
+          url: videoUrl, // Chia sẻ URL hiện tại
+        })
+        .then(() => {
+          console.log('Thanks for sharing!'); // Thêm log để kiểm tra dữ liệu
+        })
+        .catch(console.error);
+    } else {
+      this.copyToClipboard(videoUrl); // Sao chép URL nếu trình duyệt không hỗ trợ chia sẻ
+      alert('Lưu vào clipboard!'); // Thông báo cho người dùng
+    }
+  }
+
+  copyToClipboard(text: string): void {
+    const textarea = document.createElement('textarea'); // Tạo một textarea ẩn
+    textarea.value = text; // Gán giá trị cần sao chép
+    document.body.appendChild(textarea); // Thêm vào body
+    textarea.select(); // Chọn textarea
+    document.execCommand('copy'); // Sao chép
+    document.body.removeChild(textarea); // Xóa textarea
+  }
 }
-      
