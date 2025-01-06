@@ -1,7 +1,25 @@
-<h2>{{ id ? 'Edit Category' : 'Add New Category' }}</h2>
-<form (ngSubmit)="saveCategory()">
-<label for="category">Category</label>
-<input type="text" id="category" [(ngModel)]="category.category" name="category" required>
+<div class="container">
+  <h2>{{ id ? "Edit Category" : "Add New Category" }}</h2>
+  <form (ngSubmit)="saveCategory()">
+    <!-- Category Input -->
+    <div class="form-group">
+      <label for="category">Category</label>
+      <input
+        type="text"
+        id="category"
+        [(ngModel)]="category.category"
+        name="category"
+        required
+        class="form-control"
+        placeholder="Enter category name"
+      />
+    </div>
 
-<button type="submit">{{ id ? 'Update' : 'Add' }}</button>
-</form>
+    <!-- Submit Button -->
+    <div class="form-actions">
+      <button type="submit" class="btn">
+        {{ id ? "Update" : "Add" }}
+      </button>
+    </div>
+  </form>
+</div>

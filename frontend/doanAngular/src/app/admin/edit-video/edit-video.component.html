@@ -1,37 +1,52 @@
-<h2>{{ video_id ? 'Edit Video' : 'Add New Video' }}</h2>
-<form (ngSubmit)="saveVideo()">
-  <!-- Title -->
-  <label for="title">Title</label>
-  <input 
-    type="text" 
-    id="title" 
-    [(ngModel)]="video.title" 
-    name="title" 
-    required 
-    placeholder="Enter video title"
-  >
+<div class="table-container">
+  <h2>{{ video_id ? "Add New Video" : "Edit Video" }}</h2>
+  <form (ngSubmit)="saveVideo()" class="video-form">
+    <!-- Title -->
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input
+        type="text"
+        id="title"
+        [(ngModel)]="video.title"
+        name="title"
+        required
+        placeholder="Enter video title"
+        class="form-control"
+      />
+    </div>
 
-  <!-- Description -->
-  <label for="description">Description</label>
-  <textarea 
-    id="description" 
-    [(ngModel)]="video.description" 
-    name="description" 
-    rows="4" 
-    placeholder="Enter video description"
-  ></textarea>
+    <!-- Description -->
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        [(ngModel)]="video.description"
+        name="description"
+        rows="4"
+        placeholder="Enter video description"
+        class="form-control"
+      ></textarea>
+    </div>
 
-  <!-- URL -->
-  <label for="url">Video URL</label>
-  <input 
-    type="url" 
-    id="url" 
-    [(ngModel)]="video.url" 
-    name="url" 
-    required 
-    placeholder="Enter video URL"
-  >
+    <!-- URL -->
+    <div class="form-group">
+      <label for="url">Video URL</label>
+      <input
+        type="url"
+        id="url"
+        [(ngModel)]="video.url"
+        name="url"
+        required
+        placeholder="Enter video URL"
+        class="form-control"
+      />
+    </div>
 
-  <!-- Submit Button -->
-  <button type="submit">{{ video_id ? 'Update Video' : 'Add Video' }}</button>
-</form>
+    <!-- Submit Button -->
+    <div class="form-actions">
+      <button type="submit" class="btn-add">
+        {{ video_id ? "Add Video" : "Update Video" }}
+      </button>
+    </div>
+  </form>
+</div>

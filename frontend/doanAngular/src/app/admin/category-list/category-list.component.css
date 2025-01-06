@@ -39,6 +39,7 @@ h2 {
 }
 
 .btn {
+  margin: 5px;
   display: inline-block;
   padding: 10px 20px;
   margin-top: 20px;

@@ -1,9 +1,9 @@
 <h2>Danh sách video</h2>
 
 <div class="table-container">
-    <div class="add-button-container float-start m-2">
-        <button class="btn-add" routerLink="/admin/add-new" routerLinkActive="router-link-active">Add New Video</button>
-      </div>
+  <div class="add-button-container float-start m-2">
+    <button class="btn-add" routerLink="/admin/add-new">Add New Video</button>
+  </div>
   <table class="video-table">
     <thead>
       <tr>
@@ -19,17 +19,21 @@
         <td>{{ video.title }}</td>
         <td>{{ video.detail.slice(0, 50) }}...</td>
         <td class="actions d-flex">
-          <button class="btn-delete"(click)="deleteVideo(video.video_id)">Delete</button>  
-          <button class="btn-edit" [routerLink]="['/edit-video', video.video_id]">Edit</button>
+          <button (click)="deleteVideo(video.video_id)" class="btn btn-danger">
+            Xóa
+          </button>
+          <button
+            class="btn-edit"
+            [routerLink]="['/admin/edit-video', video.video_id]"
+          >
+            Edit
+          </button>
         </td>
       </tr>
     </tbody>
   </table>
-
 </div>
-<div *ngIf="successMessage" class="alert alert-success">
-  Đã xóa thành công!
-</div>
+<div *ngIf="successMessage" class="alert alert-success">Đã xóa thành công!</div>
 <div *ngIf="errorMessage" class="alert alert-danger">
   Đã có lỗi xảy ra. Vui lòng thử lại!
 </div>

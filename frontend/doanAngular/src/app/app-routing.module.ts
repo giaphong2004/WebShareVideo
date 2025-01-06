@@ -41,7 +41,7 @@ const routes: Routes = [
     component: AdminLayoutComponent,
     children: [
       {path: "admin", component: AdminLayoutComponent},
-      { path: 'edit-video/video_id', component: EditVideoComponent },
+      { path: 'edit-video/:video_id', component: EditVideoComponent },
       {path: 'content', component: ContentComponent},
       {path:'add-new', component: AddNewComponent},
       {path: 'message-list', component: MessageListComponent},
