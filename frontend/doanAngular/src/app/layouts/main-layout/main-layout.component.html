@@ -15,39 +15,32 @@
       />
     </form>
     <div class="auth-links">
-       <ng-container *ngIf="isLoggedIn; else loggedOut">
-  
+      <ng-container *ngIf="isLoggedIn; else loggedOut">
         <div class="dropdown" (click)="toggleDropdown()">
           <div
             class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center avatar"
             style="width: 40px; height: 40px; font-size: 1.1rem">
             <span class="text-uppercase">{{ username[0] }}</span>
           </div>
-  
           <!-- Dropdown Menu -->
           <div *ngIf="isDropdownVisible" class="dropdown-menu">
-            <div  class="user-info d-flex">
+            <div class="user-info d-flex">
               <p class="text-uppercase fw-bold">Tên người dùng:</p>
-              <p class="ps-1" > {{ username }}</p>
+              <p class="ps-1">{{ username }}</p>
             </div>
             <button (click)="logout()" class="btn btn-danger">Đăng xuất</button>
           </div>
         </div>
-  
       </ng-container>
-      <!--  -->
       <ng-template #loggedOut>
         <a routerLink="/login">Login</a>
         <span class="text-white">|</span>
         <a routerLink="/signup">Sign Up</a>
       </ng-template>
-  
     </div>
   </header>
   <div id="sidebar" class="sidebar">
-    <a href="#" class="closebtn" id="closeSidebar"
-      ><i class="fas fa-times"></i
-    ></a>
+    <a href="#" class="closebtn" id="closeSidebar"><i class="fas fa-times"></i></a>
     <a href="/"><i class="fa-solid fa-house"></i> Home</a>
     <a href="/about"><i class="fa-solid fa-address-card"></i> About</a>
     <a href="/contact"><i class="fa-solid fa-envelope"></i> Contact</a>
@@ -55,11 +48,11 @@
     <p class="sidebar-heading">Khám phá</p>
     <ng-container *ngFor="let category of categories">
       <a class="custom-btn" (click)="filterVideosByCategory(category.id)">{{ category.category }}</a>
-  </ng-container>
+    </ng-container>
   </div>
   <div id="overlay" class="overlay"></div>
   <main>
     <router-outlet></router-outlet>
   </main>
   <app-footer></app-footer>
-  </div>
+</div>

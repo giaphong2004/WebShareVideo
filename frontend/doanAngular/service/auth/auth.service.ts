@@ -50,9 +50,9 @@ export class AuthService {
     });
   }
 
-  logout(): Observable<void> {
-    return this.http.get('http://localhost:3000/logout').pipe(
-      map((response: any) => {
+  logout() {
+    return this.http.get('http://localhost:3000/logout').subscribe({
+      next: (response: any) => {
         if (response.success) {
           this.loggedIn.next(false);
           this.username.next('');
@@ -60,16 +60,16 @@ export class AuthService {
             localStorage.removeItem('loggedIn');
             localStorage.removeItem('username');
           }
+          this.router.navigate(['/login']);
         } else {
           alert(response.message);
         }
-      }),
-      catchError((error) => {
+      },
+      error: (error) => {
         console.error('Logout failed:', error);
         alert('Đăng xuất thất bại, vui lòng thử lại!');
-        return of(); // Trả về Observable trống khi có lỗi
-      })
-    );
+      },
+    });
   }
 
   private isLocalStorageAvailable(): boolean {
