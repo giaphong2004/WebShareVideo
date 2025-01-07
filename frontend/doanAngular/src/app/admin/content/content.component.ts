@@ -27,11 +27,12 @@ export class ContentComponent implements OnInit {
   }
   // Hàm xóa video
   deleteVideo(id: number): void {
+   
     this.videoService.deleteVideo(id).subscribe(() => {
-      this.loadAllVideos(); // Reload videos after deletion
-      window.location.href = '/admin/content'; // Redirect to content page
+      this.loadAllVideos(); // Reload categories after deletion
     });
-  }
+  
+}
 // Hàm lấy danh sách video từ VideoService
 loadAllVideos() {
   this.videoService.getVideo().subscribe((data) => {

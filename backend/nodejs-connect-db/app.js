@@ -243,25 +243,6 @@ app.get("/api/video/category/:category_id", (req, res) => {
   });
 });
 
-// API để lấy danh sách video theo category
-app.get("/api/videos/category/:category_id", (req, res) => {
-  const { category_id } = req.params;
-  const query = `
-    SELECT v.video_id, v.title, v.url_video, v.cover_url, v.detail, c.category
-    FROM video v
-    INNER JOIN category c ON c.id = v.cate_id
-    WHERE c.id = ?
-  `;
-  connection.query(query, [category_id], (err, results) => {
-    if (err) {
-      return res
-        .status(500)
-        .json({ error: "Failed to fetch videos by category" });
-    }
-    res.json(results);
-  });
-});
-
 // API để lấy danh sách category hiện trên trang chủ
 app.get("/api/categories", (req, res) => {
   const query = "SELECT id, category FROM category";
@@ -320,9 +301,7 @@ app.post('/api/categories', (req, res) => {
     });
   });
 
-
-
-  // API để xóa category
+// API để xóa category
   app.delete('/api/categories/:id', (req, res) => {
   const { id } = req.params;
   const sql = 'DELETE FROM category WHERE id = ?';
@@ -335,6 +314,23 @@ app.post('/api/categories', (req, res) => {
     } else {
       res.send({ message: 'Category deleted successfully' });
     }
+  });
+});
+
+// API để xử lý dữ liệu form liên hệ
+app.post("/api/contact", (req, res) => {
+  const { name, email, message } = req.body;
+  const query =
+    "INSERT INTO contact_messages (name, email, message) VALUES (?, ?, ?)";
+  connection.query(query, [name, email, message], (err, results) => {
+    if (err) {
+      return res
+        .status(500)
+        .json({ success: false, message: "Failed to send message" });
+    }
+    res
+      .status(200)
+      .json({ success: true, message: "Message sent successfully!" });
   });
 });
 
@@ -353,20 +349,23 @@ app.get("/api/videos", (req, res) => {
   });
 });
 
-// API để xử lý dữ liệu form liên hệ
-app.post("/api/contact", (req, res) => {
-  const { name, email, message } = req.body;
-  const query =
-    "INSERT INTO contact_messages (name, email, message) VALUES (?, ?, ?)";
-  connection.query(query, [name, email, message], (err, results) => {
+// API để lấy dữ liệu video theo ID
+app.get("/api/video/:video_id", (req, res) => {
+  const { video_id } = req.params;
+  const query = `
+    SELECT v.video_id, v.title, v.url_video, v.cover_url, v.detail, c.category, v.cate_id
+    FROM video v
+    INNER JOIN category c ON c.id = v.cate_id
+    WHERE v.video_id = ?
+  `;
+  connection.query(query, [video_id], (err, result) => {
     if (err) {
-      return res
-        .status(500)
-        .json({ success: false, message: "Failed to send message" });
+      return res.status(500).json({ error: "Failed to fetch video" });
     }
-    res
-      .status(200)
-      .json({ success: true, message: "Message sent successfully!" });
+    if (result.length === 0) {
+      return res.status(404).json({ error: "Video not found" });
+    }
+    res.json(result[0]);
   });
 });
 
@@ -397,19 +396,27 @@ app.put("/api/video/:video_id", (req, res) => {
     sql,
     [title, url_video, cover_url, detail, cate_id, video_id],
     (err, result) => {
-      if (err) throw err;
-      res.send("Cập nhật thông tin thành công!");
+      if (err) {
+        return res.status(500).json({ error: "Failed to update video" });
+      }
+      res.json({ success: true, message: "Cập nhật thông tin thành công!" });
     }
   );
 });
 
 // Xóa video
+// API để xóa video
 app.delete("/api/video/:video_id", (req, res) => {
   const { video_id } = req.params;
   const sql = "DELETE FROM video WHERE video_id = ?";
   connection.query(sql, [video_id], (err, result) => {
-    if (err) throw err;
-    res.send("Đã xoá");
+    if (err) {
+      return res.status(500).json({ error: "Failed to delete video" });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: "Video not found" });
+    }
+    res.json({ success: true, message: "Video deleted successfully!" });
   });
 });
 

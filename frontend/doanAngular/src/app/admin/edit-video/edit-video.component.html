@@ -45,7 +45,7 @@
       <label for="description">Description</label>
       <textarea
         id="description"
-        [(ngModel)]="video.description"
+        [(ngModel)]="video.detail"
         name="description"
         rows="4"
         placeholder="Enter video description"
@@ -65,7 +65,6 @@
         <option *ngFor="let category of categories" [value]="category.id">
           {{ category.category }}
         </option>
-        s
       </select>
     </div>
 

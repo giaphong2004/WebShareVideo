@@ -55,3 +55,15 @@ h2 {
 .btn:hover {
   background-color: #728a94;
 }
+
+.btn-primary {
+  background-color: #007bff; /* Màu nền của nút Thêm */
+}
+
+.btn-danger {
+  background-color: #dc3545; /* Màu nền của nút Xóa */
+}
+
+.btn-warning {
+  background-color: #ffc107; /* Màu nền của nút Sửa */
+}
