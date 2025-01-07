@@ -7,14 +7,12 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
   private apiUrl = 'http://localhost:3000/api/user';
-
   constructor(private http: HttpClient) {}
 
-  // Hàm lấy danh sách người dùng từ API
+  // Hàm lấy danh sách người dùng từ API  
   getUsers(): Observable<any> {
     return this.http.get(this.apiUrl);
   }
-
   addUser(user: any): Observable<any> {
     // thêm dữ liệu vào server json-server
     return this.http.post(this.apiUrl, user); // trả về dữ liệu
