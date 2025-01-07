@@ -52,10 +52,11 @@ function requireLogin(req, res, next) {
 app.post("/auth", function (request, response) {
   let username = request.body.username;
   let password = request.body.password;
-  if (username && password) {
+  let userId = request.body.userId;
+  if (userId && username && password) {
     connection.query(
-      "SELECT * FROM user WHERE user_uname = ? AND password = ?",
-      [username, password],
+      "SELECT * FROM user WHERE user_id = ? AND  user_uname = ? AND password = ?",
+      [userId, username, password],
       function (error, results, fields) {
         if (error) throw error;
         if (results.length > 0) {
@@ -243,25 +244,6 @@ app.get("/api/video/category/:category_id", (req, res) => {
   });
 });
 
-// API để lấy danh sách video theo category
-app.get("/api/videos/category/:category_id", (req, res) => {
-  const { category_id } = req.params;
-  const query = `
-    SELECT v.video_id, v.title, v.url_video, v.cover_url, v.detail, c.category
-    FROM video v
-    INNER JOIN category c ON c.id = v.cate_id
-    WHERE c.id = ?
-  `;
-  connection.query(query, [category_id], (err, results) => {
-    if (err) {
-      return res
-        .status(500)
-        .json({ error: "Failed to fetch videos by category" });
-    }
-    res.json(results);
-  });
-});
-
 // API để lấy danh sách category hiện trên trang chủ
 app.get("/api/categories", (req, res) => {
   const query = "SELECT id, category FROM category";
@@ -273,20 +255,23 @@ app.get("/api/categories", (req, res) => {
   });
 });
 
-
 // API để thêm category
-app.post('/api/categories', (req, res) => {
+app.post("/api/categories", (req, res) => {
   const { category } = req.body;
-  const sql = 'INSERT INTO category (category) VALUES (?)';
+  const sql = "INSERT INTO category (category) VALUES (?)";
   connection.query(sql, [category], (err, result) => {
     if (err) {
-      console.error('Error adding category:', err);
-      res.status(500).send({ error: 'Error adding category' });
+      console.error("Error adding category:", err);
+      res.status(500).send({ error: "Error adding category" });
     } else {
-      res.send({ message: 'Category added successfully' });
+      res.send({ message: "Category added successfully" });
     }
   });
 });
+<<<<<<< HEAD
+// API để cập nhật category
+app.put("/api/categories/:id", (req, res) => {
+=======
   // API để cập nhật category
   app.put('/api/categories/:id', (req, res) => {
     const { id } = req.params;
@@ -320,21 +305,70 @@ app.post('/api/categories', (req, res) => {
     });
   });
 
-
-
-  // API để xóa category
+// API để xóa category
   app.delete('/api/categories/:id', (req, res) => {
+>>>>>>> bd325ab861fb06b516bbd48ff01da9aaefe30505
   const { id } = req.params;
-  const sql = 'DELETE FROM category WHERE id = ?';
+  const { category } = req.body;
+  const sql = "UPDATE category SET category = ? WHERE id = ?";
+  connection.query(sql, [category, id], (err, result) => {
+    if (err) {
+      console.error("Error updating category:", err);
+      res.status(500).send({ error: "Error updating category" });
+    } else if (result.affectedRows === 0) {
+      res.status(404).send({ error: "Category not found" });
+    } else {
+      res.send({ message: "Category updated successfully" });
+    }
+  });
+});
+
+//API để lấy thông tin category theo id
+app.get("/api/categories/:id", (req, res) => {
+  const { id } = req.params;
+  const sql = "SELECT * FROM category WHERE id = ?";
   connection.query(sql, [id], (err, result) => {
     if (err) {
-      console.error('Error deleting category:', err);
-      res.status(500).send({ error: 'Error deleting category' });
-    } else if (result.affectedRows === 0) {
-      res.status(404).send({ error: 'Category not found' });
+      console.error("Error fetching category:", err);
+      res.status(500).send("Error fetching category");
+    } else if (result.length === 0) {
+      res.status(404).send("Category not found");
     } else {
-      res.send({ message: 'Category deleted successfully' });
+      res.json(result[0]);
     }
+  });
+});
+
+// API để xóa category
+app.delete("/api/categories/:id", (req, res) => {
+  const { id } = req.params;
+  const sql = "DELETE FROM category WHERE id = ?";
+  connection.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error("Error deleting category:", err);
+      res.status(500).send({ error: "Error deleting category" });
+    } else if (result.affectedRows === 0) {
+      res.status(404).send({ error: "Category not found" });
+    } else {
+      res.send({ message: "Category deleted successfully" });
+    }
+  });
+});
+
+// API để xử lý dữ liệu form liên hệ
+app.post("/api/contact", (req, res) => {
+  const { name, email, message } = req.body;
+  const query =
+    "INSERT INTO contact_messages (name, email, message) VALUES (?, ?, ?)";
+  connection.query(query, [name, email, message], (err, results) => {
+    if (err) {
+      return res
+        .status(500)
+        .json({ success: false, message: "Failed to send message" });
+    }
+    res
+      .status(200)
+      .json({ success: true, message: "Message sent successfully!" });
   });
 });
 
@@ -353,20 +387,23 @@ app.get("/api/videos", (req, res) => {
   });
 });
 
-// API để xử lý dữ liệu form liên hệ
-app.post("/api/contact", (req, res) => {
-  const { name, email, message } = req.body;
-  const query =
-    "INSERT INTO contact_messages (name, email, message) VALUES (?, ?, ?)";
-  connection.query(query, [name, email, message], (err, results) => {
+// API để lấy dữ liệu video theo ID
+app.get("/api/video/:video_id", (req, res) => {
+  const { video_id } = req.params;
+  const query = `
+    SELECT v.video_id, v.title, v.url_video, v.cover_url, v.detail, c.category, v.cate_id
+    FROM video v
+    INNER JOIN category c ON c.id = v.cate_id
+    WHERE v.video_id = ?
+  `;
+  connection.query(query, [video_id], (err, result) => {
     if (err) {
-      return res
-        .status(500)
-        .json({ success: false, message: "Failed to send message" });
+      return res.status(500).json({ error: "Failed to fetch video" });
     }
-    res
-      .status(200)
-      .json({ success: true, message: "Message sent successfully!" });
+    if (result.length === 0) {
+      return res.status(404).json({ error: "Video not found" });
+    }
+    res.json(result[0]);
   });
 });
 
@@ -397,19 +434,27 @@ app.put("/api/video/:video_id", (req, res) => {
     sql,
     [title, url_video, cover_url, detail, cate_id, video_id],
     (err, result) => {
-      if (err) throw err;
-      res.send("Cập nhật thông tin thành công!");
+      if (err) {
+        return res.status(500).json({ error: "Failed to update video" });
+      }
+      res.json({ success: true, message: "Cập nhật thông tin thành công!" });
     }
   );
 });
 
 // Xóa video
+// API để xóa video
 app.delete("/api/video/:video_id", (req, res) => {
   const { video_id } = req.params;
   const sql = "DELETE FROM video WHERE video_id = ?";
   connection.query(sql, [video_id], (err, result) => {
-    if (err) throw err;
-    res.send("Đã xoá");
+    if (err) {
+      return res.status(500).json({ error: "Failed to delete video" });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: "Video not found" });
+    }
+    res.json({ success: true, message: "Video deleted successfully!" });
   });
 });
 
@@ -474,12 +519,11 @@ app.get("/api/comments", (req, res) => {
   });
 });
 
-
 // API để lấy danh sách comment theo video_id
 app.get("/api/comments/:video_id", (req, res) => {
   const { video_id } = req.params;
   const query = `
-    SELECT cm.comment_id, cm.comment, u.user_uname 
+    SELECT cm.comment_id, cm.comment, u.user_uname u.user_id
     FROM comment cm 
     INNER JOIN user u ON u.user_id = cm.user_id 
     WHERE cm.video_id = ?
@@ -495,7 +539,8 @@ app.get("/api/comments/:video_id", (req, res) => {
 // API để thêm comment
 app.post("/api/comments/:video_id", (req, res) => {
   const { comment, user_id, video_id } = req.body;
-  const query = "INSERT INTO comment (comment, user_id, video_id) VALUES (?, ?, ?)";
+  const query =
+    "INSERT INTO comment (comment, user_id, video_id) VALUES (?, ?, ?)";
   connection.query(query, [comment, user_id, video_id], (err, results) => {
     if (err) {
       console.error(err.stack);

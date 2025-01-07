@@ -33,8 +33,8 @@ export class VideoService {
   }
 
   // Hàm lấy thông tin video theo id từ API
-  getVideoById(video_id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${video_id}`);
+  getVideoById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
   // Hàm lấy các video tương tự theo id từ API
@@ -47,11 +47,13 @@ export class VideoService {
     return this.http.post(this.apiUrl, video);
   }
 
-  updateVideo(video_id: number, video: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${video_id}`, video);
+  // Hàm cập nhật video
+  updateVideo(id: number, video: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, video);
   }
 
-  deleteVideo(video_id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${video_id}`);
+  // Hàm xóa video
+  deleteVideo(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 }
