@@ -15,8 +15,9 @@ import { AddNewComponent } from './admin/add-new/add-new.component';
 
 import{EditVideoComponent} from './admin/edit-video/edit-video.component';
 import { ContentComponent } from './admin/content/content.component';
-
+import { UserManagementComponent } from './admin/user-management/user-management.component';
 import { CategoryListComponent } from './admin/category-list/category-list.component';
+import { UserFormComponent } from './admin/user-form/user-form.component';
 
 
 
@@ -41,14 +42,26 @@ const routes: Routes = [
     component: AdminLayoutComponent,
     children: [
       {path: "admin", component: AdminLayoutComponent},
-      { path: 'edit-video/:video_id', component: EditVideoComponent },
+
+      //Content
       {path: 'content', component: ContentComponent},
+      { path: 'edit-video/:video_id', component: EditVideoComponent },
       {path:'add-new', component: AddNewComponent},
+
+      //Feedback
       {path: 'message-list', component: MessageListComponent},
-      {path: 'category-form', component: CategoryFormComponent},
+
+      //Category
       {path: 'category-list', component: CategoryListComponent},
+      {path: 'category-form', component: CategoryFormComponent},
       {path: 'add-category', component: CategoryFormComponent},
       {path: 'edit-category/:id', component: CategoryFormComponent},
+
+      //User
+      {path: 'user-management', component: UserManagementComponent},
+      {path: 'user-form', component: UserFormComponent},
+      {path: 'add-user', component: UserFormComponent},
+      {path: 'edit-user/:id', component: UserFormComponent},
       // Thêm các route khác cho admin ở đây
     ]
   },

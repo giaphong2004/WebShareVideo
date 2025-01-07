@@ -1,0 +1,36 @@
+<h2>Danh sách User</h2>
+<div class="container">
+  <button routerLink="/admin/add-user" class="btn btn-primary">
+    Add New User
+  </button>
+  <div class="table-container">
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.user_id }}</td>
+          <td>{{ user.user_uname }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            <button (click)="deleteUser(user.user_id)" class="btn btn-danger">
+              Xóa
+            </button>
+            <button
+              [routerLink]="['/admin/edit-user', user.user_id]"
+              class="btn btn-warning"
+            >
+              Sửa
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
