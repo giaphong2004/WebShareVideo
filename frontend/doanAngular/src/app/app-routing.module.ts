@@ -1,3 +1,4 @@
+import { CategoryFormComponent } from './admin/category-form/category-form.component';
 import { MessageListComponent } from './admin/message-list/message-list.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -14,6 +15,9 @@ import { AddNewComponent } from './admin/add-new/add-new.component';
 
 import{EditVideoComponent} from './admin/edit-video/edit-video.component';
 import { ContentComponent } from './admin/content/content.component';
+
+import { CategoryListComponent } from './admin/category-list/category-list.component';
+
 
 
 
@@ -41,6 +45,10 @@ const routes: Routes = [
       {path: 'content', component: ContentComponent},
       {path:'add-new', component: AddNewComponent},
       {path: 'message-list', component: MessageListComponent},
+      {path: 'category-form', component: CategoryFormComponent},
+      {path: 'category-list', component: CategoryListComponent},
+      {path: 'add-category', component: CategoryFormComponent},
+      {path: 'edit-category/:id', component: CategoryFormComponent},
       // Thêm các route khác cho admin ở đây
     ]
   },
