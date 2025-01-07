@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { VideoService } from '../../../../service/video/video.service';
 
+import{ CategoryService } from './../../../../service/category.service';
 @Component({
   selector: 'app-edit-video',
   templateUrl: './edit-video.component.html',
@@ -14,8 +16,8 @@ export class EditVideoComponent implements OnInit {
     url: ''
   };
   video_id: string | null = null;
-
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  categories: any[] = [];
+  constructor(private route: ActivatedRoute, private router: Router,private CategoryService: CategoryService) {}
 
   ngOnInit(): void {
     // Lấy ID từ URL (nếu có)
@@ -50,5 +52,12 @@ export class EditVideoComponent implements OnInit {
     }
     // Chuyển hướng sau khi lưu
     this.router.navigate(['/videos']);
+  }
+  loadCategories() {
+    this.CategoryService.getCategories().subscribe((data) => {
+      this.categories = data;
+    }, error => {
+      console.error('There was an error!', error);
+    });
   }
 }
