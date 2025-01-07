@@ -15,14 +15,12 @@ export class AuthService {
   get isLoggedIn() {
     return this.loggedIn.asObservable();
   }
-
   get currentUsername() {
     return this.username.asObservable();
   }
   get currentUserId() {
     return this.userId.asObservable();
   }
-
   get currentRole() {
     return this.role.asObservable();
   }
@@ -34,8 +32,11 @@ export class AuthService {
       const username = localStorage.getItem('username') || '';
       const userId = localStorage.getItem('userId') || '';
       const role = localStorage.getItem('role') || '';
+
+      // Update BehaviorSubjects
       this.loggedIn.next(loggedIn);
       this.username.next(username);
+      // this.userId.next(userId ? parseInt(userId, 10) : 0); // Convert to number
       this.userId.next(parseInt(userId));
       this.role.next(role);
     }
@@ -48,6 +49,13 @@ export class AuthService {
           this.loggedIn.next(true);
           this.username.next(user.username);
           this.role.next(response.role);
+          this.userId.next(response.userId); // Cập nhật userId
+          const userId = response.userId; // Lấy userId từ response
+          if (!isNaN(userId)) { // kiểm tra xem userId có phải là số không
+            this.userId.next(userId); // Nếu đúng thì cập nhật userId
+          } else { // Nếu không phải số thì cập nhật userId = 0
+            this.userId.next(0); // Default if invalid
+          }
           if (this.isLocalStorageAvailable()) {
             localStorage.setItem('loggedIn', JSON.stringify(true));
             localStorage.setItem('username', user.username);

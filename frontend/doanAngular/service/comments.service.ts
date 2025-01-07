@@ -7,8 +7,12 @@ import { Observable } from 'rxjs';
 })
 export class CommentsService {
   private apiUrl = 'http://localhost:3000/api/comments';
-
   constructor(private http: HttpClient) {}
+
+  // lấy userId từ localStorage
+  getUserId(): number {
+    return parseInt(localStorage.getItem('user_id')||'0');
+  }
 
   addComment(
     user_id: number,

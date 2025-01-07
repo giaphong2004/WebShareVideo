@@ -26,15 +26,16 @@ export class DetailComponent implements OnInit {
     user_uname: string; // Thêm user_uname để lưu tên người dùng
     video_id: number;
   }[] = [];
+
   currentUserId: number = 1; // Thêm currentUserId để lưu id người dùng hiện tại
-  userId: number = 0; // Thêm userId để lưu id người dùng hiện tại
 
   constructor(
     private route: ActivatedRoute,
     private videoService: VideoService,
     private sanitizer: DomSanitizer,
     private commentsService: CommentsService,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -44,9 +45,9 @@ export class DetailComponent implements OnInit {
       this.loadSimilarVideos(video_id);
       this.loadComments(video_id);
     });
-    this.authService.currentUserId.subscribe((userId) => {
-      this.userId = userId;
-    });
+    // Lấy thông tin người dùng hiện tại
+    const currentUserId = this.commentsService.getUserId();
+    console.log('aklsfjadfj user ID:', currentUserId); // Thêm log để kiểm tra dữ liệu
   }
 
   loadVideo(video_id: number) {
@@ -162,7 +163,6 @@ export class DetailComponent implements OnInit {
     }
   }
 
-
   // loadComments(video_id: number) {
   //   this.commentsService.getComments(video_id).subscribe(
   //     (data) => {
@@ -175,17 +175,15 @@ export class DetailComponent implements OnInit {
   //   );
   // }
   loadComments(video_id: number) {
-    this.commentsService.getComments(video_id).subscribe(
-      (data) => {
-        console.log('Comments data:', data);
-        this.comments = data;
-      }
-    );
+    this.commentsService.getComments(video_id).subscribe((data) => {
+      console.log('Comments data:', data);
+      this.comments = data;
+    });
   }
   //thêm comment
   addComment(): void {
     if (this.newComment) {
-      if (this.currentUserId !== null) {
+      if (this.currentUserId !== null || this.currentUserId !== 0) {
         this.commentsService
           .addComment(this.currentUserId, this.video.video_id, this.newComment)
           .subscribe(

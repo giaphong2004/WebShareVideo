@@ -12,21 +12,16 @@ import { VideoService } from '../../../../service/video/video.service'; // Impor
 export class MainLayoutComponent implements OnInit {
   isLoggedIn: boolean = false;
   username: string = '';
+  userId: number = 0;
   filteredVideos: any[] = [];
   selectedCategory: number | null = null;
   noVideosMessage: string = '';
   categories: any[] = [];
-<<<<<<< HEAD
   isDropdownVisible: boolean = false;
-=======
-  isDropdownVisible: boolean = false; 
   role: string = '';
->>>>>>> 618a5f50279ed447a1383bdf6336458055fc7878
-
   constructor(
     private authService: AuthService,
     private router: Router,
-    
     private videoService: VideoService // Inject VideoService
   ) {}
 
@@ -39,6 +34,10 @@ export class MainLayoutComponent implements OnInit {
 
     this.authService.currentUsername.subscribe((username) => {
       this.username = username;
+    });
+    this.authService.currentUserId.subscribe((userId) => {
+      this.userId = userId;
+      console.log('Current user ID:', userId); // Thêm log để kiểm tra dữ liệu
     });
     this.authService.currentRole.subscribe((role) => {
       this.role = role;
