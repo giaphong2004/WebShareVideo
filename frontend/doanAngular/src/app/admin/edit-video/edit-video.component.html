@@ -15,19 +15,6 @@
       />
     </div>
 
-    <!-- Description -->
-    <div class="form-group">
-      <label for="description">Description</label>
-      <textarea
-        id="description"
-        [(ngModel)]="video.description"
-        name="description"
-        rows="4"
-        placeholder="Enter video description"
-        class="form-control"
-      ></textarea>
-    </div>
-
     <!-- URL -->
     <div class="form-group">
       <label for="url">Video URL</label>
@@ -40,6 +27,46 @@
         placeholder="Enter video URL"
         class="form-control"
       />
+    </div>
+    <!-- Thumbnail -->
+    <div class="form-group">
+      <label for="url">Thumbnail</label>
+      <input
+        type="url"
+        id="url"
+        name="url"
+        [(ngModel)]="video.cover_url"
+        required
+        class="form-control"
+      />
+    </div>
+    <!-- Description -->
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        [(ngModel)]="video.description"
+        name="description"
+        rows="4"
+        placeholder="Enter video description"
+        class="form-control"
+      ></textarea>
+    </div>
+    <div class="form-group">
+      <label for="cate_id">Danh Mục</label>
+      <select
+        id="cate_id"
+        name="cate_id"
+        [(ngModel)]="video.cate_id"
+        required
+        class="form-control"
+      >
+        <option value="" disabled>Chọn Danh Mục</option>
+        <option *ngFor="let category of categories" [value]="category.id">
+          {{ category.category }}
+        </option>
+        s
+      </select>
     </div>
 
     <!-- Submit Button -->
