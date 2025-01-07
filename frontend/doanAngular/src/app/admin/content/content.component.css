@@ -2,30 +2,58 @@
   background-color: #fff0dc;
   padding: 20px;
 }
+
+.container {
+  max-width: 1200px;
+  background-color: #f1f0e8;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
 .table-container {
-  max-width: 90%;
-
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #d5e7b5; /* Màu nền nhẹ */
-  /* border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
-
+  max-width: 100%;
   color: #727d73; /* Màu chữ tiêu đề bảng */
+  overflow-x: auto;
 }
 
 h2 {
   text-align: center;
-  color: #727d73; /* Màu tiêu đề */
+  color: #89a8b2;
   margin-bottom: 20px;
 }
 
-.add-button-container {
-  text-align: right;
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 15px;
 }
 
+.alerts {
+  display: flex;
+  flex-direction: column;
+}
+
+.alert {
+  margin-left: 10px;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.alert-success {
+  background-color: #d0ddd0;
+  color: #155724;
+  border: 1px solid #aab99a;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
 .btn-add {
+  margin-right: 10px;
   padding: 10px 20px;
   background-color: #474e93; /* Màu nền nút */
   color: white;
@@ -92,14 +120,33 @@ h2 {
   background-color: #646bae; /* Màu nền nút chỉnh sửa khi hover */
 }
 
-.alert {
+.btn {
+ 
+  display: inline-block;
+  padding: 10px 20px;
   margin-top: 20px;
-  padding: 15px;
+  background-color: #89a8b2;
+  color: white;
+  border: none;
   border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s;
 }
 
-.alert-success {
-  background-color: #d0ddd0; /* Màu nền thông báo thành công */
-  color: #155724; /* Màu chữ thông báo thành công */
-  border: 1px solid #aab99a; /* Màu viền thông báo thành công */
+.btn:hover {
+  background-color: #728a94;
+}
+
+.btn-primary {
+  background-color: #007bff; /* Màu nền của nút Thêm */
+}
+
+.btn-danger {
+  background-color: #dc3545; /* Màu nền của nút Xóa */
+}
+
+.btn-warning {
+  background-color: #ffc107; /* Màu nền của nút Sửa */
 }

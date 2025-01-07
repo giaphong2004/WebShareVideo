@@ -25,8 +25,9 @@ import { AddNewComponent } from './admin/add-new/add-new.component';
 import { MessageListComponent } from './admin/message-list/message-list.component';
 import { CategoryListComponent } from './admin/category-list/category-list.component';
 import { CategoryFormComponent } from './admin/category-form/category-form.component';
-
-
+import { UserFormComponent } from './admin/user-form/user-form.component';
+import { RouterModule } from '@angular/router';
+import { UserManagementComponent } from './admin/user-management/user-management.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,8 @@ import { CategoryFormComponent } from './admin/category-form/category-form.compo
     MessageListComponent,
     CategoryListComponent,
     CategoryFormComponent,
+    UserFormComponent,
+    UserManagementComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [AuthService],

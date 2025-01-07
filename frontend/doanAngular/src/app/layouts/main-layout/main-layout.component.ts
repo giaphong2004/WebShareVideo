@@ -17,8 +17,14 @@ export class MainLayoutComponent implements OnInit {
   selectedCategory: number | null = null;
   noVideosMessage: string = '';
   categories: any[] = [];
+<<<<<<< HEAD
   isDropdownVisible: boolean = false;
   role: string = '';
+=======
+  isDropdownVisible: boolean = false; 
+  role: string = '';
+
+>>>>>>> bd325ab861fb06b516bbd48ff01da9aaefe30505
   constructor(
     private authService: AuthService,
     private router: Router,

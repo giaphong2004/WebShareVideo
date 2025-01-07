@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VideoService } from '../../../../service/video/video.service';
+import { CategoryService } from '../../../../service/category.service';
 
-import{ CategoryService } from './../../../../service/category.service';
 @Component({
   selector: 'app-edit-video',
   templateUrl: './edit-video.component.html',
@@ -12,52 +12,44 @@ import{ CategoryService } from './../../../../service/category.service';
 export class EditVideoComponent implements OnInit {
   video: any = {
     title: '',
-    description: '',
-    url: ''
+    url_video: '',
+    cover_url: '',
+    detail: '',
+    cate_id: ''
   };
-  video_id: string | null = null;
-  categories: any[] = [];
-  constructor(private route: ActivatedRoute, private router: Router,private CategoryService: CategoryService) {}
+  video_id: number | null = null;
+  categories: any[] = []; // Assuming you have categories to select from
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private videoService: VideoService,
+    private categoryService: CategoryService
+  ) {}
 
   ngOnInit(): void {
-    // Lấy ID từ URL (nếu có)
-    this.video_id = this.route.snapshot.paramMap.get('id');
-    if (this.video_id) {
-      // Giả lập API lấy video theo ID (thay thế bằng API thực tế)
-      this.loadVideo(this.video_id);
-    }
+    this.video_id = +this.route.snapshot.params['video_id'];
+    this.videoService.getVideoById(this.video_id).subscribe((data: any) => {
+      this.video = data;
+    });
+
+    // Load categories
+    this.loadCategories();
   }
 
-  loadVideo(video_id: string): void {
-    // Lấy thông tin video từ API hoặc service
-    // Dữ liệu giả lập:
-    const mockVideo = {
-      id: video_id,
-      title: 'Sample Video',
-      description: 'This is a sample video description.',
-      url: 'https://example.com/sample-video.mp4'
-    };
-    this.video = mockVideo;
+  loadCategories(): void {
+    this.categoryService.getCategories().subscribe((data: any) => {
+      this.categories = data;
+    });
   }
 
   saveVideo(): void {
-    if (this.video_id) {
-      // Cập nhật video
-      console.log('Updating video:', this.video);
-      alert('Video updated successfully!');
+    if (this.video_id !== null) {
+      this.videoService.updateVideo(this.video_id, this.video).subscribe(() => {
+        this.router.navigate(['/admin/content']);
+      });
     } else {
-      // Thêm video mới
-      console.log('Adding new video:', this.video);
-      alert('Video added successfully!');
+      console.error('Video ID is null');
     }
-    // Chuyển hướng sau khi lưu
-    this.router.navigate(['/videos']);
-  }
-  loadCategories() {
-    this.CategoryService.getCategories().subscribe((data) => {
-      this.categories = data;
-    }, error => {
-      console.error('There was an error!', error);
-    });
   }
 }

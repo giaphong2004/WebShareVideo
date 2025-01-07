@@ -1,0 +1,45 @@
+<div class="container">
+  <h2>{{ id ? "Edit User" : "Add New User" }}</h2>
+  <form (ngSubmit)="saveUser()">
+    <div class="form-group">
+      <label for="user">User</label>
+      <input
+        type="text"
+        id="user"
+        name="user"
+        [(ngModel)]="user.user_uname"
+        required
+        class="form-control"
+        placeholder="Enter user name"
+      />
+      <label for="email">Email</label>
+      <input
+        type="text"
+        id="email"
+        name="email"
+        [(ngModel)]="user.email"
+        required
+        class="form-control"
+        placeholder="Enter Email"
+      />
+
+      <label for="email">Password</label>
+      <input
+        type="text"
+        id="email"
+        name="email"
+        [(ngModel)]="user.password"
+        required
+        class="form-control"
+        placeholder="Enter Password"
+      />
+    </div>
+
+    <!-- Submit Button -->
+    <div class="form-actions">
+      <button type="submit" class="btn">
+        {{ id ? "Update" : "Add" }}
+      </button>
+    </div>
+  </form>
+</div>

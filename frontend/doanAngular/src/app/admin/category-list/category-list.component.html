@@ -19,14 +19,11 @@
           <td>
             <button
               (click)="deleteCategory(category.id)"
-              class="btn btn-danger"
+              class="btn btn-danger" style="margin-right: 10px;"
             >
               Xóa
             </button>
-            <button
-              [routerLink]="['/admin/edit-category', category.id]"
-              class="btn btn-warning"
-            >
+            <button [routerLink]="['/admin/edit-category', category.id]" class="btn btn-warning">
               Sửa
             </button>
           </td>
